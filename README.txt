@@ -1,3 +1,16 @@
+GLASS SCORE V6
+==============
+
+V6 RESPONSIVE HARDENING
+- Telefon (320-700px) için tüm ana ekranlar yeniden ölçeklendi.
+- Tablet portrait ve landscape için ayrı düzen eklendi.
+- Mobil skor ekranında yatay taşma engellendi.
+- Hakem modu, kurulum modalı, sponsor alanı, kulüp kartları ve admin ekranı mobil uyumlu hale getirildi.
+- iPhone input zoom sorunu önlendi (16px form kontrolleri).
+- Sponsorsuz maçta sponsor alanı sıfır yer kaplamaya devam eder.
+- Çok sponsor mobilde 2 sütunlu güvenli grid kullanır.
+- Kısa yatay telefon görünümü için ayrı kompakt skor düzeni eklendi.
+
 GLASS SCORE V5
 ==============
 

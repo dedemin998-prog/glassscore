@@ -36,6 +36,187 @@ button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.
 @media(max-width:1100px){.courtGrid{grid-template-columns:repeat(2,1fr)}.modeGrid{grid-template-columns:repeat(2,1fr)}.scoreShell{height:auto;min-height:0}.scoreLayout{grid-template-columns:1fr 1fr;grid-template-areas:"a b" "m m";height:auto}.teamA{grid-area:a}.teamB{grid-area:b}.middle{grid-area:m;display:grid;grid-template-columns:repeat(4,1fr);align-items:center}.status,.games,.serverBox,.clocks{min-height:100px}.setHistory{grid-column:span 2}.teamCard{min-height:450px}.sponsorStrip{margin-bottom:4px}}
 @media(max-width:700px){.app{padding:10px}.top{align-items:flex-start}.brand{padding-top:2px}.actions{max-width:calc(100% - 148px)}.compactBtn{width:44px;height:44px;padding:0;display:grid;place-items:center}.compactBtn span{display:none}.compactBtn::after{content:attr(data-short);font-size:18px}.homeHero h1{font-size:clamp(36px,11vw,46px)}.logo{width:142px;height:46px}.logo img{width:142px;max-height:46px}.actions{gap:5px}.connection{display:none}.courtGrid,.modeGrid{grid-template-columns:1fr}.homeHero{padding-top:22px}.scoreLayout{gap:8px}.teamHead{padding:16px 12px 5px}.teamName{font-size:18px}.players{font-size:10px}.point{font-size:clamp(70px,20vw,120px)}.addPoint{margin:0 10px 10px;min-height:78px;font-size:20px}.teamCard{min-height:340px;border-radius:19px}.middle{grid-template-columns:1fr 1fr;border-radius:19px;padding:12px}.status,.games,.serverBox,.clocks{min-height:92px}.gameNums{font-size:56px}.setHistory{grid-column:1/-1}.refGrid{grid-template-columns:1fr 1fr;gap:8px}.refTeam{padding:12px}.refTeam h2{font-size:18px}.refPoint{font-size:70px}.refTools{grid-template-columns:1fr 1fr}.setupGrid{grid-template-columns:1fr}.field.full{grid-column:auto}.adminRow{grid-template-columns:1fr}.four{grid-template-columns:1fr 1fr}.sponsorStrip{min-height:74px;gap:10px;padding:8px;flex-wrap:wrap}.uploadBox input{max-width:100%}.sponsorItem{height:52px;max-width:130px}.sponsorItem img{max-height:48px}.sponsorStrip.single .sponsorItem img{max-height:54px}.langSwitch button{padding:6px 7px}}
 @media(orientation:landscape) and (max-height:680px){.app{padding:8px}.logo{width:126px;height:40px}.logo img{width:126px;max-height:40px}.top{margin-bottom:8px;padding-bottom:7px}.scoreShell{height:calc(100dvh - 62px);min-height:0}.scoreLayout{min-height:0;grid-template-columns:1fr 250px 1fr;grid-template-areas:none}.teamA,.teamB,.middle{grid-area:auto}.teamCard{min-height:0}.teamHead{padding:12px 14px 2px}.point{font-size:clamp(72px,20vh,120px)}.addPoint{min-height:64px;margin:0 10px 10px}.middle{display:flex;padding:10px;gap:7px}.status{font-size:11px;min-height:34px;padding:7px}.games{padding:0}.gameNums{font-size:50px;margin-top:2px}.serverBox{padding:8px}.serverBox b{font-size:14px}.setHistory{display:none}.clocks{grid-template-columns:1fr 1fr}.clock{padding:7px}.clock b{font-size:16px}.clock small{font-size:8px}.sponsorStrip{min-height:60px;flex-wrap:nowrap}.sponsorItem{height:42px}.sponsorItem img{max-height:40px}.sponsorStrip.single .sponsorItem{height:46px}.sponsorStrip.single .sponsorItem img{max-height:44px}}
+
+/* ===== V6 RESPONSIVE HARDENING ===== */
+html,body{max-width:100%;overflow-x:hidden}
+.app,.scoreShell,.scoreLayout,.teamCard,.middle,.panel,.courtCard,.refTeam,.adminRow{min-width:0}
+button,input,select,.shareBox{max-width:100%}
+img,svg,object{max-width:100%}
+
+/* Tablet landscape: preserve the true scoreboard layout instead of pushing the center panel below. */
+@media (min-width:820px) and (max-width:1180px) and (orientation:landscape) and (min-height:681px){
+  .app{padding:10px}
+  .scoreShell{height:calc(100dvh - 78px);min-height:560px}
+  .scoreLayout{grid-template-columns:minmax(0,1fr) minmax(240px,280px) minmax(0,1fr);grid-template-areas:none;gap:10px;height:100%}
+  .teamA,.teamB,.middle{grid-area:auto}
+  .teamCard{min-height:0}
+  .teamHead{padding:18px 16px 6px}
+  .teamName{font-size:clamp(21px,2.5vw,30px)}
+  .point{font-size:clamp(92px,13vw,160px)}
+  .point.small{font-size:clamp(68px,9vw,125px)}
+  .middle{display:flex;padding:13px;gap:10px}
+  .status,.games,.serverBox,.clocks{min-height:0}
+  .gameNums{font-size:clamp(58px,6vw,76px)}
+  .setHistory{grid-column:auto}
+}
+
+/* Tablet portrait and small desktop. */
+@media (min-width:701px) and (max-width:819px){
+  .app{padding:10px}
+  .top{margin-bottom:10px}
+  .logo,.logo img{width:155px}
+  .scoreLayout{gap:10px}
+  .teamCard{min-height:410px}
+  .point{font-size:clamp(88px,17vw,145px)}
+  .point.small{font-size:clamp(64px,12vw,112px)}
+  .middle{gap:10px;padding:14px}
+  .status,.games,.serverBox,.clocks{min-height:88px}
+}
+
+/* Phones: keep every view inside the viewport and prioritize touch targets. */
+@media (max-width:700px){
+  :root{--r:18px}
+  body{min-width:0}
+  .app{width:100%;padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))}
+
+  .top{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;margin-bottom:8px;padding:2px 0 8px}
+  .brand{min-width:0;padding:0}
+  .logo{width:118px;height:38px}
+  .logo img{width:118px;max-height:38px}
+  .actions{max-width:none;min-width:0;gap:4px;flex-wrap:nowrap}
+  .actions>.btn{padding:8px 9px;font-size:11px;white-space:nowrap}
+  .actions>.icon{width:38px;height:38px;min-width:38px;border-radius:12px;font-size:16px}
+  .langSwitch{flex:0 0 auto;padding:2px}
+  .langSwitch button{padding:5px 6px;font-size:10px}
+  .connection{display:none}
+  .compactBtn{width:38px!important;height:38px!important;min-width:38px;padding:0!important}
+  .compactBtn::after{font-size:16px}
+
+  .homeHero{padding:18px 2px 12px}
+  .homeHero h1{font-size:clamp(34px,10.5vw,44px);line-height:.98;margin:10px 0 12px;overflow-wrap:anywhere}
+  .homeHero p{font-size:14px;line-height:1.5}
+  .sectionHead{flex-direction:column;align-items:stretch;gap:8px;margin:20px 0 10px}
+  .sectionHead .btn{width:100%}
+  .courtGrid,.modeGrid{grid-template-columns:minmax(0,1fr)}
+  .courtCard{padding:14px;border-radius:18px}
+  .courtTop h3{font-size:19px;overflow-wrap:anywhere}
+  .miniScore{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;margin:14px 0 12px}
+  .miniScore .team{font-size:12px;min-width:0}
+  .miniScore .team:last-child{text-align:right}
+  .miniScore .score{grid-column:1/-1;grid-row:2;text-align:center;font-size:24px;white-space:normal}
+  .cardButtons{grid-template-columns:1fr 1fr;gap:6px}
+  .cardButtons .btn,.cardButtons .primary{padding:11px 7px;font-size:12px;min-width:0}
+
+  .scoreShell{height:auto;min-height:0;gap:8px}
+  .scoreLayout{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"a b" "m m";gap:6px;width:100%;height:auto}
+  .teamA{grid-area:a}.teamB{grid-area:b}.middle{grid-area:m}
+  .teamCard{min-width:0;min-height:300px;border-radius:16px}
+  .teamCard.server:after{right:7px;top:7px;padding:5px 6px;font-size:8px;letter-spacing:.06em}
+  .teamHead{padding:13px 9px 4px;min-width:0}
+  .teamName{font-size:clamp(14px,4.2vw,18px);max-width:100%;padding-right:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .players{gap:4px;margin-top:6px;font-size:9px;line-height:1.2;overflow:hidden}
+  .players span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .setLine{margin-top:7px}
+  .setPill{padding:5px 7px;font-size:9px}
+  .bigScore{padding:4px;min-width:0}
+  .point{font-size:clamp(58px,19vw,90px);letter-spacing:-.06em}
+  .point.small{font-size:clamp(44px,13vw,66px);letter-spacing:-.04em}
+  .pointLabel{font-size:9px;margin-top:10px;letter-spacing:.11em}
+  .addPoint{margin:0 7px 7px;min-height:64px;border-radius:14px;font-size:clamp(16px,4.5vw,21px);padding:8px 4px}
+
+  .middle{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:7px;padding:9px;border-radius:16px;align-items:stretch}
+  .status{grid-column:1/-1;min-height:42px;padding:8px;font-size:11px;letter-spacing:.06em}
+  .games{grid-column:1/-1;min-height:0;padding:8px 0;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.018)}
+  .games small{font-size:10px}
+  .gameNums{font-size:clamp(48px,16vw,64px);margin-top:4px}
+  .serverBox{grid-column:1/-1;min-height:0;padding:10px;border-radius:14px}
+  .serverBox small{font-size:9px}.serverBox b{font-size:16px;margin-top:4px;overflow-wrap:anywhere}
+  .setHistory{grid-column:1/-1;gap:6px}
+  .setRow{min-height:42px;padding:9px;font-size:16px;border-radius:13px}
+  .setRow small{font-size:9px}
+  .clocks{grid-column:1/-1;grid-template-columns:1fr 1fr;gap:6px;min-height:0}
+  .clock{padding:9px 4px;border-radius:13px;min-width:0}
+  .clock b{font-size:18px}.clock small{font-size:8px;letter-spacing:.04em;white-space:normal}
+  .midBtns{grid-column:1/-1;grid-template-columns:1fr 1fr;gap:6px}
+  .midBtns button{min-height:44px;padding:8px 5px;font-size:11px}
+
+  .sponsorStrip{width:100%;min-height:0;padding:8px;gap:8px;border-radius:15px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}
+  .sponsorStrip.single{grid-template-columns:1fr}
+  .sponsorItem,.sponsorStrip.single .sponsorItem{width:100%;min-width:0;max-width:none;height:50px}
+  .sponsorItem img,.sponsorStrip.single .sponsorItem img{max-width:100%;max-height:46px}
+  .sponsorItem object,.sponsorStrip.single .sponsorItem object{width:100%;height:46px}
+
+  .refGrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px}
+  .refTeam{min-width:0;padding:10px;border-radius:16px;overflow:hidden}
+  .refTeam h2{font-size:clamp(13px,4vw,17px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .refPlayers{font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
+  .refPoint{font-size:clamp(54px,18vw,72px);margin:12px 0;letter-spacing:-.05em}
+  .refTeam .primary{min-height:62px;padding:8px 4px;font-size:17px;border-radius:13px}
+  .refTools{grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+  .refTools .btn{min-height:46px;padding:8px 6px;font-size:11px}
+  .panel{padding:12px;margin-top:8px;border-radius:16px;overflow:hidden}
+  .panel h3{font-size:16px;margin-bottom:8px}
+  .panel p{font-size:12px;line-height:1.55;overflow-wrap:anywhere}
+  .logItem{font-size:10px;gap:7px;align-items:flex-start}
+  .logItem span:first-child{min-width:0;overflow-wrap:anywhere}
+  .logItem span:last-child{font-size:9px}
+
+  .modalBack{padding:0;align-items:flex-end}
+  .modal{width:100%;max-width:none;max-height:94dvh;border-radius:20px 20px 0 0;padding:14px;padding-bottom:max(16px,env(safe-area-inset-bottom))}
+  .modal h2{font-size:21px}.modal>p{font-size:12px;margin-bottom:13px}
+  .setupGrid{grid-template-columns:minmax(0,1fr);gap:9px}
+  .field.full{grid-column:auto}
+  .field input,.field select{min-height:44px;padding:10px;font-size:16px} /* avoids iOS zoom */
+  .two{grid-template-columns:1fr}
+  .four{grid-template-columns:1fr 1fr;gap:6px}
+  .four select{min-width:0}
+  .uploadBox{padding:10px}.uploadBox input{width:100%;font-size:12px}
+  .sponsorPreviewCard{min-width:92px;max-width:140px;height:62px}
+  .modalActions{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .modalActions>*{width:100%;min-width:0;padding:11px 7px;font-size:12px}
+  .shareBox{overflow-wrap:anywhere;word-break:break-word;font-size:10px}
+
+  .adminRow{grid-template-columns:minmax(0,1fr);gap:8px;padding:11px;border-radius:15px}
+  .adminRow strong{font-size:14px;overflow-wrap:anywhere}.adminRow small{font-size:10px;overflow-wrap:anywhere}
+  .winnerCard{padding:22px 14px;border-radius:22px}.winnerCard h2{font-size:28px}.winnerCard .cup{font-size:46px}
+  .toast{max-width:calc(100vw - 20px);white-space:normal;text-align:center;bottom:max(14px,env(safe-area-inset-bottom))}
+}
+
+/* Extra-small phones. */
+@media (max-width:390px){
+  .top{grid-template-columns:1fr;justify-items:center}
+  .brand{justify-content:center;width:100%}
+  .actions{width:100%;justify-content:center;flex-wrap:wrap}
+  .logo{width:128px;height:40px}.logo img{width:128px;max-height:40px}
+  .homeHero h1{text-align:left}
+  .cardButtons{grid-template-columns:1fr}
+  .point{font-size:clamp(54px,18vw,72px)}
+  .point.small{font-size:clamp(40px,12vw,55px)}
+  .teamCard{min-height:290px}
+  .refPoint{font-size:clamp(50px,17vw,64px)}
+}
+
+/* Short phone landscape. Keep controls usable without crushing the center column. */
+@media (orientation:landscape) and (max-height:520px) and (max-width:900px){
+  .app{padding:6px}
+  .top{display:flex;align-items:center;margin-bottom:5px;padding-bottom:5px}
+  .brand{width:auto}.logo{width:104px;height:32px}.logo img{width:104px;max-height:32px}
+  .actions{width:auto;flex-wrap:nowrap;margin-left:auto}
+  .scoreShell{height:auto;min-height:0}
+  .scoreLayout{grid-template-columns:minmax(0,1fr) minmax(170px,210px) minmax(0,1fr);grid-template-areas:none;gap:6px}
+  .teamA,.teamB,.middle{grid-area:auto}
+  .teamCard{min-height:calc(100dvh - 58px)}
+  .teamHead{padding:8px 8px 2px}.teamName{font-size:13px}.players{display:none}.setLine{margin-top:4px}
+  .point{font-size:clamp(58px,20vh,82px)}.point.small{font-size:clamp(42px,14vh,58px)}
+  .pointLabel{margin-top:5px;font-size:8px}.addPoint{min-height:48px;margin:0 5px 5px;font-size:15px}
+  .middle{display:flex;padding:6px;gap:4px;overflow:auto}
+  .status{min-height:28px;font-size:9px;padding:4px}.games{border:0;padding:0}.gameNums{font-size:40px;margin-top:0}
+  .serverBox{padding:5px}.serverBox small{font-size:7px}.serverBox b{font-size:12px}
+  .setHistory{display:none}.clocks{display:grid;grid-template-columns:1fr 1fr}.clock{padding:5px}.clock b{font-size:13px}.clock small{font-size:7px}
+  .midBtns button{min-height:34px;font-size:9px;padding:4px}
+  .sponsorStrip{display:none}
+}
+
 </style>
 </head>
 <body>
