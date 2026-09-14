@@ -43,6 +43,8 @@ function newMatchState() {
     pausedTotalMs: 0,
     sidesSwapped: false,
     winner: null,
+    sponsors: [],
+    sponsorVersion: 0,
     log: []
   };
 }
@@ -57,7 +59,7 @@ function newCourt(id, name) {
   };
 }
 
-let db = { version: 1, courts: [newCourt(1), newCourt(2), newCourt(3), newCourt(4)] };
+let db = { version: 2, nextCourtId: 5, courts: [newCourt(1), newCourt(2), newCourt(3), newCourt(4)] };
 const undoStacks = new Map();
 const clients = new Map();
 
@@ -65,7 +67,18 @@ function load() {
   try {
     if (fs.existsSync(DATA_FILE)) {
       const parsed = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
-      if (parsed && Array.isArray(parsed.courts)) db = parsed;
+      if (parsed && Array.isArray(parsed.courts)) {
+        db = parsed;
+        db.version = 2;
+        const maxId = db.courts.reduce((m,c) => Math.max(m, Number(c.id)||0), 0);
+        if (!Number.isInteger(db.nextCourtId) || db.nextCourtId <= maxId) db.nextCourtId = maxId + 1;
+        for (const court of db.courts) {
+          if (!court.match) court.match = newMatchState();
+          if (!Array.isArray(court.history)) court.history = [];
+          if (!Array.isArray(court.match.sponsors)) court.match.sponsors = [];
+          if (!Number.isInteger(court.match.sponsorVersion)) court.match.sponsorVersion = court.match.sponsors.length ? 1 : 0;
+        }
+      }
     }
   } catch (e) {
     console.error("data.json okunamadı:", e.message);
@@ -136,6 +149,8 @@ function summarizeCourt(court) {
     pausedTotalMs: m.pausedTotalMs,
     sidesSwapped: m.sidesSwapped,
     winner: m.winner,
+    sponsors: Array.isArray(m.sponsors) ? m.sponsors : [],
+    sponsorVersion: Number.isInteger(m.sponsorVersion) ? m.sponsorVersion : 0,
     currentServer: srv,
     serviceOrder: m.serviceOrder,
     servicePos: m.servicePos,
@@ -144,18 +159,37 @@ function summarizeCourt(court) {
   };
 }
 
+function summarizeCourtLive(court) {
+  const liveState = summarizeCourt(court);
+  delete liveState.sponsors;
+  return liveState;
+}
+
 function broadcast(courtId) {
   const set = clients.get(String(courtId));
   if (!set || !set.size) return;
   const court = getCourt(courtId);
   if (!court) return;
-  const payload = `data: ${JSON.stringify(summarizeCourt(court))}\n\n`;
+  // Sponsor dosyalarını her puanda tekrar göndermiyoruz. Mobil veri ve Render belleğini korur.
+  const liveState = summarizeCourtLive(court);
+  const payload = `data: ${JSON.stringify(liveState)}\n\n`;
   for (const res of set) {
     try { res.write(payload); } catch {}
   }
 }
 function broadcastAll() {
   db.courts.forEach(c => broadcast(c.id));
+}
+
+function broadcastCourtDeleted(courtId) {
+  const key = String(courtId);
+  const set = clients.get(key);
+  if (!set) return;
+  const payload = `event: deleted\ndata: ${JSON.stringify({ id:key })}\n\n`;
+  for (const res of set) {
+    try { res.write(payload); res.end(); } catch {}
+  }
+  clients.delete(key);
 }
 
 function pushUndo(court) {
@@ -282,12 +316,30 @@ function awardPoint(court, team) {
   if (standardWin || goldenWin) winGame(court, team);
 }
 
+
+function normalizeSponsors(items) {
+  if (!Array.isArray(items)) return [];
+  const allowed = new Set(["image/png","image/jpeg","image/webp","image/svg+xml","application/pdf"]);
+  return items.slice(0, 6).map((item, i) => {
+    const type = String(item?.type || "");
+    const data = String(item?.data || "");
+    const name = String(item?.name || `Sponsor ${i+1}`).slice(0, 80);
+    if (!allowed.has(type)) return null;
+    if (!data.startsWith(`data:${type};base64,`)) return null;
+    if (data.length > 2_200_000) return null;
+    return { name, type, data };
+  }).filter(Boolean);
+}
+
 function resetMatch(court, setup = {}) {
+  const previousSponsorVersion = Number.isInteger(court?.match?.sponsorVersion) ? court.match.sponsorVersion : 0;
   const m = newMatchState();
   m.teams = setup.teams || m.teams;
   m.goldenPoint = !!setup.goldenPoint;
   m.bestOf = Number(setup.bestOf) === 1 ? 1 : 3;
   m.bookingMinutes = Math.max(15, Math.min(300, Number(setup.bookingMinutes) || 90));
+  m.sponsors = normalizeSponsors(setup.sponsors);
+  m.sponsorVersion = previousSponsorVersion + 1;
   if (Array.isArray(setup.serviceOrder) && setup.serviceOrder.length === 4) {
     const uniq = [...new Set(setup.serviceOrder.map(Number))];
     if (uniq.length === 4 && uniq.every(n => n >= 0 && n <= 3)) m.serviceOrder = uniq;
@@ -316,6 +368,10 @@ function updateSetup(court, setup) {
   if ("goldenPoint" in setup) m.goldenPoint = !!setup.goldenPoint;
   if ("bestOf" in setup) m.bestOf = Number(setup.bestOf) === 1 ? 1 : 3;
   if ("bookingMinutes" in setup) m.bookingMinutes = Math.max(15, Math.min(300, Number(setup.bookingMinutes) || 90));
+  if ("sponsors" in setup) {
+    m.sponsors = normalizeSponsors(setup.sponsors);
+    m.sponsorVersion = (Number.isInteger(m.sponsorVersion) ? m.sponsorVersion : 0) + 1;
+  }
   if (Array.isArray(setup.serviceOrder) && setup.serviceOrder.length === 4) {
     const uniq = [...new Set(setup.serviceOrder.map(Number))];
     if (uniq.length === 4 && uniq.every(n => n >= 0 && n <= 3)) m.serviceOrder = uniq;
@@ -336,7 +392,13 @@ function applyAction(court, body) {
   } else if (action === "undo") {
     const stack = undoStacks.get(String(court.id)) || [];
     const prev = stack.pop();
-    if (prev) court.match = prev;
+    if (prev) {
+      // Son puan maçı bitirdiyse geçmişe eklenen kaydı da geri al; aksi halde çift kayıt oluşur.
+      if (court.match.status === "finished" && court.match.archived) {
+        court.history = court.history.filter(h => h.matchId !== court.match.matchId);
+      }
+      court.match = prev;
+    }
   } else if (action === "swap") {
     m.sidesSwapped = !m.sidesSwapped;
     logAction(m, "system", "Ekran tarafları değiştirildi");
@@ -372,7 +434,7 @@ function applyAction(court, body) {
   archiveIfNeeded(court);
   persist();
   broadcast(court.id);
-  return summarizeCourt(court);
+  return summarizeCourtLive(court);
 }
 
 function json(res, status, data) {
@@ -393,7 +455,7 @@ function readBody(req) {
     let raw = "";
     req.on("data", c => {
       raw += c;
-      if (raw.length > 1_000_000) {
+      if (raw.length > 15_000_000) {
         reject(new Error("Body too large"));
         req.destroy();
       }
@@ -416,7 +478,7 @@ function serveStatic(req, res, pathname) {
     const types = {
       ".html":"text/html; charset=utf-8",".css":"text/css; charset=utf-8",
       ".js":"application/javascript; charset=utf-8",".json":"application/json; charset=utf-8",
-      ".svg":"image/svg+xml",".png":"image/png",".ico":"image/x-icon"
+      ".svg":"image/svg+xml",".png":"image/png",".jpg":"image/jpeg",".jpeg":"image/jpeg",".webp":"image/webp",".pdf":"application/pdf",".ico":"image/x-icon"
     };
     res.writeHead(200, {"Content-Type":types[ext] || "application/octet-stream"});
     res.end(data);
@@ -433,14 +495,25 @@ const server = http.createServer(async (req, res) => {
 
   if (pathname === "/api/courts" && req.method === "POST") {
     const body = await readBody(req);
-    const maxId = db.courts.reduce((m,c) => Math.max(m, Number(c.id)||0), 0);
-    const c = newCourt(maxId + 1, String(body.name || `Kort ${maxId+1}`).slice(0,40));
+    const id = String(db.nextCourtId || 1);
+    db.nextCourtId = Number(id) + 1;
+    const c = newCourt(id, String(body.name || `Kort ${id}`).slice(0,40));
     db.courts.push(c);
     persist();
     return json(res, 201, summarizeCourt(c));
   }
 
   const courtMatch = pathname.match(/^\/api\/court\/([^/]+)$/);
+  if (courtMatch && req.method === "DELETE") {
+    const id = String(courtMatch[1]);
+    const index = db.courts.findIndex(c => String(c.id) === id);
+    if (index < 0) return json(res, 404, {error:"Court not found"});
+    const [removed] = db.courts.splice(index, 1);
+    undoStacks.delete(id);
+    persist();
+    broadcastCourtDeleted(id);
+    return json(res, 200, { ok:true, id, name:removed.name });
+  }
   if (courtMatch && req.method === "GET") {
     const c = getCourt(courtMatch[1]);
     return c ? json(res, 200, summarizeCourt(c)) : json(res, 404, {error:"Court not found"});

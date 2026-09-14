@@ -1,50 +1,39 @@
-GLASS SCORE V3
+GLASS SCORE V5
 ==============
 
-GLASS SCORE, kort tableti + hakem telefonu + TV/skor ekranı + kulüp panelini gerçek zamanlı senkronize eden padel skor sistemidir.
+Render-ready live padel scoring system.
 
-MARKA
-- Ana lacivert: #071321
-- GLASS lime: #BDF756
-- Beyaz: #FFFFFF
-- Logo: public/glass-score-logo.svg
+V5 YENILIKLERI / KONTROLLER
+- Kort silme eklendi. Kort yönetiminden onay vererek kort ve geçmişi silinebilir.
+- Kort ID'leri artık silinen numarayı tekrar kullanmaz; eski linklerle karışma riski azaltıldı.
+- Sponsorsuz maçlar açıkça desteklenir; sponsor alanı hiç render edilmez ve skor ekranı tam alanı kullanır.
+- Sponsorlu maçlarda 1-6 logo desteklenir; mobilde logolar sarılarak taşma azaltılır.
+- Sponsor verisi her puanda tekrar canlı yayına gönderilmez; mobil veri ve ücretsiz sunucu yükü azaltıldı.
+- PDF sponsor için desteklenmeyen tarayıcılarda fallback görünümü eklendi.
+- Mobil header sıkışması azaltıldı; Bağlantılar / Maç Ayarı butonları dar ekranda kompakt hale gelir.
+- Telefon, tablet, masaüstü ve yatay düşük-yükseklik ekranlar için responsive breakpoint'ler yeniden gözden geçirildi.
+- Maç bitişinden sonra Geri Al kullanıldığında geçmişte çift maç kaydı oluşabilen durum düzeltildi.
+- Sponsor sürüm takibi eklendi; sponsor değişince bağlı cihazlar yeni logoları bir kez yeniden alır.
+- TR / EN, takım/kort/oyuncu adları, Golden Point/Advantage, servis sırası, tie-break, süreler ve canlı senkron korunur.
 
-ÖZELLİKLER
-- Kort tableti büyük skor kontrolü
-- Hakem modu
-- Salt-okunur TV / skor ekranı
-- Çoklu kort yönetimi
-- 0/15/30/40, Deuce, Advantage
-- Golden Point
-- 6-6 tie-break
-- Best of 3 veya tek set
-- 4 oyunculu servis sırası
-- Servis düzeltme
-- Geri alma ve taraf değiştirme
-- Duraklat / devam
-- Maç süresi ve kalan kort süresi
-- Maç geçmişi
-- Canlı cihaz senkronizasyonu (SSE)
+TEST EDILENLER
+- Node.js syntax: server + frontend geçti.
+- API: kort ekleme ve silme geçti.
+- Skor: 0/15/30/40, Deuce/Advantage ve Golden Point geçti.
+- Set/maç bitişi ve final puanını geri alma/geçmiş düzeltmesi geçti.
+- 6-6 tie-break ve servis rotasyonu geçti.
+- Sponsorlu ve sponsorsuz state akışı kontrol edildi.
 
-LOKAL ÇALIŞTIRMA
-Node.js 18+ gerekir.
-
-  npm start
-
-veya
-
-  node server.js
-
-Sonra:
-  http://localhost:8080
-
-Aynı Wi-Fi cihazları terminalde gösterilen yerel IP adresini kullanabilir.
-
-RENDER DEPLOY
-Bu klasör Render'a hazırdır. Private GitHub reposuna dosyaların TAMAMINI yükle.
-Render > New Web Service > private repo seç.
+RENDER
 Build Command: npm install
 Start Command: npm start
-Instance: Free (demo için)
 
-Not: Render Free disk kalıcılığı garanti etmez. Demo için uygundur. Gerçek kulüp kullanımında veritabanı kullanılmalıdır.
+GITHUB GUNCELLEME
+Repo kökünde server.js, package.json, render.yaml, README.txt ve .gitignore bulunur.
+public klasöründe index.html ve glass-score-logo.svg bulunur.
+GitHub main branch'e değişiklikler commit edilince Render otomatik deploy eder.
+
+URETIM ONCESI KRITIK NOTLAR
+1) Render Free planında data.json kalıcı disk garantisi vermez. Demo için uygundur; gerçek kulüp kullanımında PostgreSQL gibi kalıcı veritabanı gerekir.
+2) Mevcut demo sürümünde admin/hakem PIN veya kullanıcı girişi yoktur. Linki bilen biri kontrol ekranlarına erişebilir. Halka açık gerçek kullanım öncesi yetkilendirme eklenmelidir.
+3) Sponsorlar şu an base64 olarak maç verisinde tutulur. Canlı yayın yükü optimize edildi; ancak çok büyük ve çok sayıda dosya için üretimde object storage (S3/R2 vb.) daha doğru mimaridir.

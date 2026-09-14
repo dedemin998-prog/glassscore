@@ -3,113 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#07110d">
+<meta name="theme-color" content="#071321">
 <title>GLASS SCORE</title>
 <style>
 :root{
   --bg:#071321;--panel:#0b1a2a;--panel2:#10263a;--panel3:#16324a;
-  --text:#ffffff;--muted:#95a8b8;--line:rgba(189,247,86,.14);
+  --text:#ffffff;--muted:#95a8b8;--line:rgba(189,247,86,.18);
   --accent:#BDF756;--accent2:#9FDF36;--danger:#ff6b73;--warning:#ffd45d;
   --shadow:0 18px 70px rgba(0,0,0,.35);--r:24px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-body{min-height:100dvh;background:
-radial-gradient(circle at 8% 0%,rgba(189,247,86,.12),transparent 28%),
-radial-gradient(circle at 92% 100%,rgba(35,105,155,.18),transparent 36%),var(--bg)}
-button,input,select{font:inherit}
-button{cursor:pointer}
-button:disabled{opacity:.45;cursor:not-allowed}
-.app{width:min(1600px,100%);margin:auto;min-height:100dvh;padding:max(14px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))}
+body{min-height:100dvh;background:radial-gradient(circle at 8% 0%,rgba(189,247,86,.11),transparent 28%),radial-gradient(circle at 92% 100%,rgba(35,105,155,.18),transparent 36%),var(--bg)}
+button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
+.app{width:min(1700px,100%);margin:auto;min-height:100dvh;padding:max(14px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))}
 .hidden{display:none!important}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(189,247,86,.12)}
-.brand{display:flex;align-items:center;gap:11px}
-.logo{width:176px;height:55px;display:flex;align-items:center;justify-content:flex-start;flex:0 0 auto}.logo img{display:block;width:176px;height:auto;max-height:55px;object-fit:contain}
-.brand b{display:block;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
-.brand small{display:block;color:var(--muted);margin-top:3px;font-size:11px;letter-spacing:.03em}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
-.icon,.btn,.ghost,.danger,.primary{border:1px solid var(--line);background:rgba(255,255,255,.045);color:var(--text);border-radius:14px;font-weight:850}
-.icon{width:44px;height:44px;font-size:18px}
-.btn,.ghost,.danger,.primary{padding:12px 15px}
-.primary{background:var(--accent);color:#071321;border-color:transparent}
-.danger{background:rgba(255,102,102,.09);color:#ff9c9c;border-color:rgba(255,102,102,.25)}
-.warning{color:var(--warning)}
-.homeHero{padding:36px 4px 22px}
-.eyebrow{color:var(--accent);font-weight:950;font-size:11px;letter-spacing:.22em;text-transform:uppercase}
-.homeHero h1{font-size:clamp(38px,7vw,82px);letter-spacing:-.052em;line-height:.94;margin:14px 0 18px;max-width:1060px;font-weight:950}
-.homeHero p{color:var(--muted);font-size:17px;line-height:1.6;max-width:760px}
-.sectionHead{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:26px 0 12px}
-.sectionHead h2{margin:0;font-size:22px}
-.sectionHead p{margin:0;color:var(--muted);font-size:13px}
-.courtGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.courtCard{border:1px solid var(--line);background:linear-gradient(180deg,rgba(16,38,58,.96),rgba(8,24,39,.96));border-radius:22px;padding:18px;box-shadow:var(--shadow)}
-.courtCard.inactive{opacity:.55}
-.courtTop{display:flex;align-items:start;justify-content:space-between;gap:10px}
-.courtTop h3{margin:0;font-size:22px}
-.badge{border:1px solid var(--line);border-radius:999px;padding:7px 9px;font-size:10px;font-weight:950;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
-.badge.live{background:rgba(199,255,56,.08);color:var(--accent);border-color:rgba(199,255,56,.22)}
-.badge.finished{color:#8fdcff}
-.miniScore{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;margin:20px 0 16px}
-.miniScore .team{font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.miniScore .team:last-child{text-align:right}
-.miniScore .score{font-size:28px;font-weight:1000;white-space:nowrap}
-.cardButtons{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.cardButtons button:last-child:nth-child(odd){grid-column:1/-1}
-.modeGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
-.modeInfo{border:1px solid var(--line);border-radius:18px;padding:16px;background:rgba(255,255,255,.025)}
-.modeInfo b{display:block;margin-bottom:5px}.modeInfo small{color:var(--muted);line-height:1.5}
-.connection{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font-size:12px;font-weight:800}
-.dot{width:8px;height:8px;border-radius:50%;background:#ff6464}
-.dot.on{background:var(--accent);box-shadow:0 0 16px rgba(199,255,56,.5)}
-.scoreLayout{display:grid;grid-template-columns:minmax(0,1fr) 250px minmax(0,1fr);gap:14px;height:calc(100dvh - 86px);min-height:560px}
-.teamCard,.middle{border:1px solid var(--line);background:linear-gradient(180deg,rgba(16,38,58,.98),rgba(8,24,39,.98));border-radius:var(--r);box-shadow:var(--shadow)}
-.teamCard{display:grid;grid-template-rows:auto 1fr auto;position:relative;overflow:hidden}
-.teamCard.server{box-shadow:0 0 0 2px rgba(199,255,56,.46) inset,var(--shadow)}
-.teamCard.server:after{content:"SERVİS";position:absolute;right:16px;top:16px;border-radius:999px;padding:7px 10px;background:var(--accent);color:#071321;font-size:10px;font-weight:1000;letter-spacing:.1em}
-.teamHead{padding:22px 22px 8px}
-.teamName{font-size:clamp(22px,2.2vw,34px);font-weight:1000;line-height:1.05;text-transform:uppercase;max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.players{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px;color:var(--muted);font-size:12px;font-weight:780}
-.players span.serverPlayer{color:var(--accent)}
-.setLine{display:flex;align-items:center;gap:8px;margin-top:12px}
-.setPill{border:1px solid var(--line);padding:7px 10px;border-radius:999px;color:var(--muted);font-size:11px;font-weight:900}.setPill b{color:var(--text)}
-.bigScore{display:grid;place-items:center;text-align:center;padding:8px}
-.point{font-size:clamp(100px,15vw,220px);font-weight:1000;letter-spacing:-.085em;line-height:.82;font-variant-numeric:tabular-nums}
-.point.small{font-size:clamp(74px,11vw,155px)}
-.pointLabel{color:var(--muted);font-size:12px;font-weight:950;letter-spacing:.16em;text-transform:uppercase;margin-top:18px}
-.addPoint{margin:0 18px 18px;border:0;border-radius:20px;min-height:100px;background:var(--accent);color:#071321;font-size:clamp(25px,2.4vw,38px);font-weight:1000}
-.addPoint:active{transform:translateY(2px);background:#ace846}
-.middle{padding:16px;display:flex;flex-direction:column;justify-content:space-between;gap:10px}
-.status{text-align:center;border:1px solid var(--line);border-radius:999px;padding:8px 10px;color:var(--muted);font-weight:900;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
-.games{text-align:center}.games small{color:var(--muted);font-weight:900;letter-spacing:.12em}.gameNums{font-size:58px;font-weight:1000;line-height:1.05;margin-top:7px}.gameNums i{font-style:normal;color:#53665d;font-size:34px;padding:0 10px}
-.serverBox{border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center;background:rgba(255,255,255,.025)}
-.serverBox small{display:block;color:var(--muted);font-weight:900;letter-spacing:.1em;font-size:10px}.serverBox b{display:block;margin-top:5px;font-size:15px}
-.setHistory{display:grid;gap:7px}.setRow{display:grid;grid-template-columns:1fr auto 1fr;gap:7px;border:1px solid var(--line);border-radius:13px;padding:9px 10px;font-weight:950}.setRow span:first-child{text-align:right}.setRow span:last-child{text-align:left}.setRow small{color:var(--muted);font-size:9px;letter-spacing:.1em}
-.clocks{display:grid;grid-template-columns:1fr 1fr;gap:8px}.clock{border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}.clock b{display:block;font-size:18px;font-variant-numeric:tabular-nums}.clock small{color:var(--muted);font-size:9px;font-weight:850;letter-spacing:.08em}
-.midBtns{display:grid;grid-template-columns:1fr 1fr;gap:7px}.midBtns button{min-height:46px}
-.refGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.refTeam{border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.035);padding:18px}
-.refTeam.server{box-shadow:0 0 0 2px rgba(199,255,56,.4) inset}
-.refTeam h2{margin:0;font-size:26px;text-transform:uppercase}.refPlayers{color:var(--muted);margin-top:6px}
-.refPoint{font-size:100px;font-weight:1000;letter-spacing:-.07em;line-height:1;margin:18px 0}
-.refTeam .primary{width:100%;min-height:88px;font-size:25px}
-.refTools{margin-top:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.panel{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:22px;padding:18px;margin-top:12px}
-.panel h3{margin:0 0 12px}.panel p{color:var(--muted)}
-.log{display:grid;gap:6px;max-height:240px;overflow:auto}.logItem{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(255,255,255,.06);padding:8px 0;font-size:12px}.logItem span:last-child{color:var(--muted);white-space:nowrap}
-.displayMode .top{display:none}.displayMode .scoreLayout{height:100dvh}.displayMode .addPoint,.displayMode .midBtns{display:none}.displayMode .teamCard{grid-template-rows:auto 1fr}.displayMode .point{font-size:clamp(130px,18vw,270px)}
-.setupGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:7px}.field label{color:var(--muted);font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.field input,.field select{width:100%;background:#081827;color:var(--text);border:1px solid var(--line);border-radius:13px;padding:12px;outline:none}
-.field.full{grid-column:1/-1}.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.four{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.modalBack{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:18px;z-index:60}.modalBack.open{display:flex}
-.modal{width:min(760px,100%);max-height:94dvh;overflow:auto;background:#0b1a2a;border:1px solid var(--line);border-radius:26px;padding:22px;box-shadow:var(--shadow)}
-.modal h2{margin:0 0 4px}.modal>p{margin:0 0 18px;color:var(--muted)}
-.modalActions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px;flex-wrap:wrap}
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(30px);opacity:0;background:#10263a;border:1px solid var(--line);border-radius:999px;padding:11px 16px;font-size:12px;font-weight:850;transition:.2s;z-index:90;pointer-events:none}.toast.show{opacity:1;transform:translateX(-50%)}
-.winner{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(14px);display:none;align-items:center;justify-content:center;padding:18px;z-index:80}.winner.open{display:flex}.winnerCard{width:min(620px,100%);text-align:center;background:#0b1a2a;border:1px solid var(--line);border-radius:30px;padding:34px;box-shadow:var(--shadow)}.winnerCard .cup{font-size:58px}.winnerCard h2{font-size:38px;margin:8px 0}.winnerCard p{color:var(--muted)}.winnerCard button{margin-top:15px;width:100%;min-height:56px}
-.shareBox{word-break:break-all;font-family:ui-monospace,monospace;font-size:12px;color:var(--muted);background:#081827;border:1px solid var(--line);border-radius:13px;padding:12px}
-.adminTable{display:grid;gap:10px}.adminRow{display:grid;grid-template-columns:1.4fr .8fr 1.1fr 1.2fr;gap:10px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px;background:rgba(255,255,255,.025)}.adminRow strong{font-size:16px}.adminRow small{display:block;color:var(--muted);margin-top:3px}
-@media(max-width:1100px){.courtGrid{grid-template-columns:repeat(2,1fr)}.modeGrid{grid-template-columns:repeat(2,1fr)}.scoreLayout{grid-template-columns:1fr 1fr;grid-template-areas:"a b" "m m";height:auto}.teamA{grid-area:a}.teamB{grid-area:b}.middle{grid-area:m;display:grid;grid-template-columns:repeat(4,1fr);align-items:center}.setHistory{grid-column:span 2}.teamCard{min-height:440px}}
-@media(max-width:700px){.app{padding:10px}.logo{width:132px;height:42px}.logo img{width:132px;max-height:42px}.courtGrid,.modeGrid{grid-template-columns:1fr}.homeHero{padding-top:22px}.homeHero h1{font-size:46px}.scoreLayout{gap:8px}.teamHead{padding:16px 12px 5px}.teamName{font-size:18px}.players{font-size:10px}.point{font-size:clamp(70px,20vw,120px)}.addPoint{margin:0 10px 10px;min-height:78px;font-size:20px}.teamCard{min-height:330px;border-radius:19px}.middle{grid-template-columns:1fr 1fr;border-radius:19px}.setHistory{grid-column:1/-1}.serverBox{display:none}.refGrid{grid-template-columns:1fr 1fr;gap:8px}.refTeam{padding:12px}.refTeam h2{font-size:18px}.refPoint{font-size:70px}.refTools{grid-template-columns:1fr 1fr}.setupGrid{grid-template-columns:1fr}.field.full{grid-column:auto}.adminRow{grid-template-columns:1fr}.four{grid-template-columns:1fr 1fr}.top .brand small{display:none}}
-@media(orientation:landscape) and (max-height:680px){.app{padding:8px}.logo{width:120px;height:38px}.logo img{width:120px;max-height:38px}.top{margin-bottom:8px}.scoreLayout{height:calc(100dvh - 62px);min-height:0;grid-template-columns:1fr 210px 1fr;grid-template-areas:none}.teamA,.teamB,.middle{grid-area:auto}.teamCard{min-height:0}.teamHead{padding:12px 14px 2px}.point{font-size:clamp(72px,20vh,120px)}.addPoint{min-height:64px;margin:0 10px 10px}.middle{display:flex;padding:10px}.setHistory{display:none}.clocks{grid-template-columns:1fr}.clock:last-child{display:none}.top .brand small{display:none}}
+.top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:14px;padding:4px 2px 12px;border-bottom:1px solid rgba(189,247,86,.14)}
+.brand{display:flex;align-items:center;min-width:0}.logo{width:186px;height:58px;display:flex;align-items:center;justify-content:flex-start;flex:0 0 auto}.logo img{display:block;width:186px;height:auto;max-height:58px;object-fit:contain;background:transparent}
+.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:flex-end}
+.icon,.btn,.ghost,.danger,.primary{border:1px solid var(--line);background:rgba(255,255,255,.045);color:var(--text);border-radius:14px;font-weight:850}.icon{width:44px;height:44px;font-size:18px}.btn,.ghost,.danger,.primary{padding:12px 15px}.primary{background:var(--accent);color:#071321;border-color:transparent}.danger{background:rgba(255,102,102,.09);color:#ff9c9c;border-color:rgba(255,102,102,.25)}.warning{color:var(--warning)}
+.langSwitch{display:flex;align-items:center;border:1px solid var(--line);border-radius:999px;padding:3px;background:rgba(255,255,255,.035)}.langSwitch button{border:0;background:transparent;color:var(--muted);font-size:11px;font-weight:1000;padding:7px 9px;border-radius:999px}.langSwitch button.active{background:var(--accent);color:#071321}
+.connection{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font-size:12px;font-weight:800}.dot{width:8px;height:8px;border-radius:50%;background:#ff6464}.dot.on{background:var(--accent);box-shadow:0 0 16px rgba(189,247,86,.5)}
+.homeHero{padding:36px 4px 22px}.eyebrow{color:var(--accent);font-weight:950;font-size:11px;letter-spacing:.22em;text-transform:uppercase}.homeHero h1{font-size:clamp(38px,7vw,82px);letter-spacing:-.052em;line-height:.94;margin:14px 0 18px;max-width:1060px;font-weight:950}.homeHero p{color:var(--muted);font-size:17px;line-height:1.6;max-width:760px}.sectionHead{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:26px 0 12px}.sectionHead h2{margin:0;font-size:22px}.sectionHead p{margin:0;color:var(--muted);font-size:13px}
+.courtGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.courtCard{border:1px solid var(--line);background:linear-gradient(180deg,rgba(16,38,58,.96),rgba(8,24,39,.96));border-radius:22px;padding:18px;box-shadow:var(--shadow)}.courtCard.inactive{opacity:.55}.courtTop{display:flex;align-items:start;justify-content:space-between;gap:10px}.courtTop h3{margin:0;font-size:22px}.badge{border:1px solid var(--line);border-radius:999px;padding:7px 9px;font-size:10px;font-weight:950;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}.badge.live{background:rgba(189,247,86,.08);color:var(--accent);border-color:rgba(189,247,86,.22)}.badge.finished{color:#8fdcff}
+.miniScore{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;margin:20px 0 16px}.miniScore .team{font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.miniScore .team:last-child{text-align:right}.miniScore .score{font-size:28px;font-weight:1000;white-space:nowrap}.cardButtons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.modeGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}.modeInfo{border:1px solid var(--line);border-radius:18px;padding:16px;background:rgba(255,255,255,.025)}.modeInfo b{display:block;margin-bottom:5px}.modeInfo small{color:var(--muted);line-height:1.5}
+.scoreShell{height:calc(100dvh - 92px);min-height:590px;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:10px}.scoreLayout{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,340px) minmax(0,1fr);gap:14px;min-height:0}.teamCard,.middle{border:1px solid var(--line);background:linear-gradient(180deg,rgba(16,38,58,.98),rgba(8,24,39,.98));border-radius:var(--r);box-shadow:var(--shadow)}.teamCard{display:grid;grid-template-rows:auto 1fr auto;position:relative;overflow:hidden}.teamCard.server{box-shadow:0 0 0 2px rgba(189,247,86,.48) inset,var(--shadow)}.teamCard.server:after{content:attr(data-server-label);position:absolute;right:16px;top:16px;border-radius:999px;padding:8px 11px;background:var(--accent);color:#071321;font-size:11px;font-weight:1000;letter-spacing:.1em}.teamHead{padding:22px 22px 8px}.teamName{font-size:clamp(24px,2.3vw,38px);font-weight:1000;line-height:1.05;text-transform:uppercase;max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.players{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;color:var(--muted);font-size:13px;font-weight:780}.players span.serverPlayer{color:var(--accent)}.setLine{display:flex;align-items:center;gap:8px;margin-top:13px}.setPill{border:1px solid var(--line);padding:8px 12px;border-radius:999px;color:var(--muted);font-size:12px;font-weight:900}.setPill b{color:var(--text)}
+.bigScore{display:grid;place-items:center;text-align:center;padding:8px}.point{font-size:clamp(108px,15vw,230px);font-weight:1000;letter-spacing:-.085em;line-height:.82;font-variant-numeric:tabular-nums}.point.small{font-size:clamp(78px,11vw,165px)}.pointLabel{color:var(--muted);font-size:13px;font-weight:950;letter-spacing:.16em;text-transform:uppercase;margin-top:20px}.addPoint{margin:0 18px 18px;border:0;border-radius:20px;min-height:104px;background:var(--accent);color:#071321;font-size:clamp(26px,2.5vw,40px);font-weight:1000}.addPoint:active{transform:translateY(2px);background:#ace846}
+.middle{padding:18px;display:flex;flex-direction:column;justify-content:space-between;gap:14px}.status{text-align:center;border:1px solid var(--line);border-radius:999px;padding:12px 13px;color:#d8e4ed;font-weight:950;font-size:15px;letter-spacing:.09em;text-transform:uppercase;min-height:46px;display:grid;place-items:center}.games{text-align:center;padding:8px 0}.games small{color:var(--muted);font-weight:950;letter-spacing:.14em;font-size:14px}.gameNums{font-size:clamp(66px,6vw,92px);font-weight:1000;line-height:1;margin-top:9px}.gameNums i{font-style:normal;color:#607467;font-size:.55em;padding:0 10px}.serverBox{border:1px solid var(--line);border-radius:18px;padding:15px 12px;text-align:center;background:rgba(255,255,255,.025)}.serverBox small{display:block;color:var(--muted);font-weight:950;letter-spacing:.12em;font-size:11px}.serverBox b{display:block;margin-top:7px;font-size:19px;line-height:1.15}.setHistory{display:grid;gap:8px}.setRow{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;border:1px solid var(--line);border-radius:15px;padding:12px 12px;font-weight:1000;font-size:18px;min-height:48px}.setRow span:first-child{text-align:right}.setRow span:last-child{text-align:left}.setRow small{color:var(--muted);font-size:11px;letter-spacing:.1em}.clocks{display:grid;grid-template-columns:1fr 1fr;gap:8px}.clock{border:1px solid var(--line);border-radius:15px;padding:12px 8px;text-align:center}.clock b{display:block;font-size:23px;font-variant-numeric:tabular-nums}.clock small{display:block;color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.08em;margin-top:3px}.midBtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}.midBtns button{min-height:50px}
+.scoreShell.noSponsors{grid-template-rows:minmax(0,1fr)}.sponsorStrip{min-height:86px;border:1px solid var(--line);background:rgba(6,19,33,.86);border-radius:20px;padding:10px 16px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:18px;overflow:hidden}.sponsorStrip:empty{display:none}.sponsorItem{height:62px;min-width:88px;max-width:180px;display:flex;align-items:center;justify-content:center;overflow:hidden}.sponsorItem img{max-width:100%;max-height:58px;display:block;object-fit:contain}.sponsorItem object{width:155px;height:58px;border:0;background:#fff;border-radius:6px;overflow:hidden}.pdfFallback{display:grid;place-items:center;width:100%;height:100%;background:#fff;color:#071321;font-size:10px;font-weight:900;text-align:center;padding:4px}.sponsorStrip.single .sponsorItem{max-width:320px;height:70px}.sponsorStrip.single .sponsorItem img{max-height:68px;max-width:300px}.sponsorStrip.single .sponsorItem object{width:280px;height:66px}
+.refGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.refTeam{border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.035);padding:18px}.refTeam.server{box-shadow:0 0 0 2px rgba(189,247,86,.4) inset}.refTeam h2{margin:0;font-size:26px;text-transform:uppercase}.refPlayers{color:var(--muted);margin-top:6px}.refPoint{font-size:100px;font-weight:1000;letter-spacing:-.07em;line-height:1;margin:18px 0}.refTeam .primary{width:100%;min-height:88px;font-size:25px}.refTools{margin-top:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.panel{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:22px;padding:18px;margin-top:12px}.panel h3{margin:0 0 12px}.panel p{color:var(--muted)}.log{display:grid;gap:6px;max-height:240px;overflow:auto}.logItem{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(255,255,255,.06);padding:8px 0;font-size:12px}.logItem span:last-child{color:var(--muted);white-space:nowrap}
+.setupGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:7px}.field label{color:var(--muted);font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.field input,.field select{width:100%;background:#081827;color:var(--text);border:1px solid var(--line);border-radius:13px;padding:12px;outline:none}.field.full{grid-column:1/-1}.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.four{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.uploadBox{border:1px dashed rgba(189,247,86,.32);border-radius:16px;padding:14px;background:rgba(189,247,86,.035)}.uploadBox input{padding:9px;background:transparent}.uploadHelp{font-size:11px;color:var(--muted);line-height:1.5}.sponsorPreview{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.sponsorPreviewCard{height:70px;min-width:110px;max-width:180px;position:relative;border:1px solid var(--line);border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;padding:7px;overflow:hidden}.sponsorPreviewCard img{max-width:100%;max-height:55px;object-fit:contain}.sponsorPreviewCard .pdfBadge{color:#071321;font-size:11px;font-weight:900;text-align:center}.sponsorPreviewCard button{position:absolute;right:4px;top:4px;width:24px;height:24px;border:0;border-radius:50%;background:#071321;color:#fff;font-weight:900}.modalBack{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:18px;z-index:60}.modalBack.open{display:flex}.modal{width:min(800px,100%);max-height:94dvh;overflow:auto;background:#0b1a2a;border:1px solid var(--line);border-radius:26px;padding:22px;box-shadow:var(--shadow)}.modal h2{margin:0 0 4px}.modal>p{margin:0 0 18px;color:var(--muted)}.modalActions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px;flex-wrap:wrap}.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(30px);opacity:0;background:#10263a;border:1px solid var(--line);border-radius:999px;padding:11px 16px;font-size:12px;font-weight:850;transition:.2s;z-index:90;pointer-events:none}.toast.show{opacity:1;transform:translateX(-50%)}.winner{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(14px);display:none;align-items:center;justify-content:center;padding:18px;z-index:80}.winner.open{display:flex}.winnerCard{width:min(620px,100%);text-align:center;background:#0b1a2a;border:1px solid var(--line);border-radius:30px;padding:34px;box-shadow:var(--shadow)}.winnerCard .cup{font-size:58px}.winnerCard h2{font-size:38px;margin:8px 0}.winnerCard p{color:var(--muted)}.winnerCard button{margin-top:15px;width:100%;min-height:56px}.shareBox{word-break:break-all;font-family:ui-monospace,monospace;font-size:12px;color:var(--muted);background:#081827;border:1px solid var(--line);border-radius:13px;padding:12px}.adminTable{display:grid;gap:10px}.adminRow{display:grid;grid-template-columns:1.4fr .8fr 1.1fr 1.2fr;gap:10px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px;background:rgba(255,255,255,.025)}.adminRow strong{font-size:16px}.adminRow small{display:block;color:var(--muted);margin-top:3px}
+@media(max-width:1100px){.courtGrid{grid-template-columns:repeat(2,1fr)}.modeGrid{grid-template-columns:repeat(2,1fr)}.scoreShell{height:auto;min-height:0}.scoreLayout{grid-template-columns:1fr 1fr;grid-template-areas:"a b" "m m";height:auto}.teamA{grid-area:a}.teamB{grid-area:b}.middle{grid-area:m;display:grid;grid-template-columns:repeat(4,1fr);align-items:center}.status,.games,.serverBox,.clocks{min-height:100px}.setHistory{grid-column:span 2}.teamCard{min-height:450px}.sponsorStrip{margin-bottom:4px}}
+@media(max-width:700px){.app{padding:10px}.top{align-items:flex-start}.brand{padding-top:2px}.actions{max-width:calc(100% - 148px)}.compactBtn{width:44px;height:44px;padding:0;display:grid;place-items:center}.compactBtn span{display:none}.compactBtn::after{content:attr(data-short);font-size:18px}.homeHero h1{font-size:clamp(36px,11vw,46px)}.logo{width:142px;height:46px}.logo img{width:142px;max-height:46px}.actions{gap:5px}.connection{display:none}.courtGrid,.modeGrid{grid-template-columns:1fr}.homeHero{padding-top:22px}.scoreLayout{gap:8px}.teamHead{padding:16px 12px 5px}.teamName{font-size:18px}.players{font-size:10px}.point{font-size:clamp(70px,20vw,120px)}.addPoint{margin:0 10px 10px;min-height:78px;font-size:20px}.teamCard{min-height:340px;border-radius:19px}.middle{grid-template-columns:1fr 1fr;border-radius:19px;padding:12px}.status,.games,.serverBox,.clocks{min-height:92px}.gameNums{font-size:56px}.setHistory{grid-column:1/-1}.refGrid{grid-template-columns:1fr 1fr;gap:8px}.refTeam{padding:12px}.refTeam h2{font-size:18px}.refPoint{font-size:70px}.refTools{grid-template-columns:1fr 1fr}.setupGrid{grid-template-columns:1fr}.field.full{grid-column:auto}.adminRow{grid-template-columns:1fr}.four{grid-template-columns:1fr 1fr}.sponsorStrip{min-height:74px;gap:10px;padding:8px;flex-wrap:wrap}.uploadBox input{max-width:100%}.sponsorItem{height:52px;max-width:130px}.sponsorItem img{max-height:48px}.sponsorStrip.single .sponsorItem img{max-height:54px}.langSwitch button{padding:6px 7px}}
+@media(orientation:landscape) and (max-height:680px){.app{padding:8px}.logo{width:126px;height:40px}.logo img{width:126px;max-height:40px}.top{margin-bottom:8px;padding-bottom:7px}.scoreShell{height:calc(100dvh - 62px);min-height:0}.scoreLayout{min-height:0;grid-template-columns:1fr 250px 1fr;grid-template-areas:none}.teamA,.teamB,.middle{grid-area:auto}.teamCard{min-height:0}.teamHead{padding:12px 14px 2px}.point{font-size:clamp(72px,20vh,120px)}.addPoint{min-height:64px;margin:0 10px 10px}.middle{display:flex;padding:10px;gap:7px}.status{font-size:11px;min-height:34px;padding:7px}.games{padding:0}.gameNums{font-size:50px;margin-top:2px}.serverBox{padding:8px}.serverBox b{font-size:14px}.setHistory{display:none}.clocks{grid-template-columns:1fr 1fr}.clock{padding:7px}.clock b{font-size:16px}.clock small{font-size:8px}.sponsorStrip{min-height:60px;flex-wrap:nowrap}.sponsorItem{height:42px}.sponsorItem img{max-height:40px}.sponsorStrip.single .sponsorItem{height:46px}.sponsorStrip.single .sponsorItem img{max-height:44px}}
 </style>
 </head>
 <body>
@@ -117,304 +43,65 @@ button:disabled{opacity:.45;cursor:not-allowed}
 
 <div class="modalBack" id="setupModal">
   <div class="modal">
-    <h2>Maç Kurulumu</h2>
-    <p>Takımlar, oyuncular, skor formatı ve servis sırasını ayarla.</p>
+    <h2 id="setupTitle"></h2><p id="setupDesc"></p>
     <div class="setupGrid">
-      <div class="field"><label>Takım A</label><input id="teamAName"></div>
-      <div class="field"><label>Takım B</label><input id="teamBName"></div>
-      <div class="field"><label>A1 Oyuncu</label><input id="a1"></div>
-      <div class="field"><label>B1 Oyuncu</label><input id="b1"></div>
-      <div class="field"><label>A2 Oyuncu</label><input id="a2"></div>
-      <div class="field"><label>B2 Oyuncu</label><input id="b2"></div>
-      <div class="field"><label>Maç Formatı</label><select id="bestOf"><option value="3">Best of 3 Set</option><option value="1">Tek Set</option></select></div>
-      <div class="field"><label>Skor Kuralı</label><select id="golden"><option value="0">Advantage / Deuce</option><option value="1">Golden Point</option></select></div>
-      <div class="field"><label>Kort Süresi</label><select id="booking"><option value="60">60 dk</option><option value="90">90 dk</option><option value="120">120 dk</option><option value="180">180 dk</option></select></div>
-      <div class="field"><label>İlk Servis</label><select id="firstServer"></select></div>
-      <div class="field full"><label>Servis Sırası</label><div class="four" id="serviceOrderFields"></div></div>
+      <div class="field full"><label id="courtNameLabel"></label><input id="courtNameInput" maxlength="40"></div>
+      <div class="field"><label id="teamALabel"></label><input id="teamAName" maxlength="32"></div>
+      <div class="field"><label id="teamBLabel"></label><input id="teamBName" maxlength="32"></div>
+      <div class="field"><label id="a1Label"></label><input id="a1" maxlength="32"></div>
+      <div class="field"><label id="b1Label"></label><input id="b1" maxlength="32"></div>
+      <div class="field"><label id="a2Label"></label><input id="a2" maxlength="32"></div>
+      <div class="field"><label id="b2Label"></label><input id="b2" maxlength="32"></div>
+      <div class="field"><label id="formatLabel"></label><select id="bestOf"></select></div>
+      <div class="field"><label id="ruleLabel"></label><select id="golden"></select></div>
+      <div class="field"><label id="durationLabel"></label><select id="booking"><option value="60">60 min</option><option value="90">90 min</option><option value="120">120 min</option><option value="180">180 min</option></select></div>
+      <div class="field"><label id="firstServeLabel"></label><select id="firstServer"></select></div>
+      <div class="field full"><label id="serveOrderLabel"></label><div class="four" id="serviceOrderFields"></div></div>
+      <div class="field full"><label id="sponsorLabel"></label><div class="uploadBox"><input type="file" id="sponsorFiles" multiple accept="image/png,image/jpeg,image/webp,image/svg+xml,application/pdf"><div class="uploadHelp" id="sponsorHelp"></div><div class="sponsorPreview" id="sponsorPreview"></div></div></div>
     </div>
-    <div class="modalActions">
-      <button class="ghost" onclick="closeSetup()">Vazgeç</button>
-      <button class="danger" onclick="newMatchFromSetup()">Yeni maç olarak sıfırla</button>
-      <button class="primary" onclick="saveAndStart()">Kaydet & Başlat</button>
-    </div>
+    <div class="modalActions"><button class="ghost" id="cancelSetupBtn" onclick="closeSetup()"></button><button class="danger" id="resetMatchBtn" onclick="newMatchFromSetup()"></button><button class="primary" id="saveStartBtn" onclick="saveAndStart()"></button></div>
   </div>
 </div>
 
-<div class="modalBack" id="shareModal">
-  <div class="modal">
-    <h2>Cihaz Bağlantıları</h2>
-    <p>Aynı Wi‑Fi ağına bağlı cihazlarda aşağıdaki adresleri aç.</p>
-    <div class="field"><label>Kort Tableti</label><div class="shareBox" id="shareCourt"></div></div>
-    <div class="field"><label>Hakem Telefonu</label><div class="shareBox" id="shareRef"></div></div>
-    <div class="field"><label>TV / Skor Ekranı</label><div class="shareBox" id="shareDisplay"></div></div>
-    <div class="modalActions"><button class="primary" onclick="copyCurrentShare()">Adresleri Kopyala</button><button class="ghost" onclick="closeShare()">Kapat</button></div>
-  </div>
-</div>
-
-<div class="winner" id="winner">
-  <div class="winnerCard">
-    <div class="cup">🏆</div><h2 id="winnerTitle">Kazanan</h2><p id="winnerScore"></p>
-    <button class="primary" onclick="document.getElementById('winner').classList.remove('open')">Skor ekranına dön</button>
-  </div>
-</div>
+<div class="modalBack" id="shareModal"><div class="modal"><h2 id="shareTitle"></h2><p id="shareDesc"></p><div class="field"><label id="shareCourtLabel"></label><div class="shareBox" id="shareCourt"></div></div><div class="field"><label id="shareRefLabel"></label><div class="shareBox" id="shareRef"></div></div><div class="field"><label id="shareDisplayLabel"></label><div class="shareBox" id="shareDisplay"></div></div><div class="modalActions"><button class="primary" id="copyBtn" onclick="copyCurrentShare()"></button><button class="ghost" id="closeShareBtn" onclick="closeShare()"></button></div></div></div>
+<div class="winner" id="winner"><div class="winnerCard"><div class="cup">🏆</div><h2 id="winnerTitle"></h2><p id="winnerScore"></p><button class="primary" id="winnerCloseBtn" onclick="document.getElementById('winner').classList.remove('open')"></button></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
-const qs = new URLSearchParams(location.search);
-let courtId = qs.get("court");
-let mode = qs.get("mode") || (courtId ? "court" : "home");
-let state = null;
-let allCourts = [];
-let es = null;
-let connected = false;
-let timerInterval = null;
-let lastFinishedMatchId = null;
+const qs=new URLSearchParams(location.search);let courtId=qs.get("court");let mode=qs.get("mode")||(courtId?"court":"home");let state=null,allCourts=[],es=null,connected=false,timerInterval=null,lastFinishedMatchId=null,pendingSponsors=[];
+let lang=(qs.get("lang")||localStorage.getItem("glassscore-lang")||"tr").toLowerCase()==="en"?"en":"tr";
+const $=s=>document.querySelector(s),app=$("#app");
+const I18N={tr:{connected:"Canlı bağlı",connecting:"Bağlanıyor",disconnected:"Bağlantı koptu",clubPanel:"Kulüp Paneli",heroEye:"GLASS SCORE • LIVE COURT SYSTEM",heroTitle:"Kortun skoru tek merkezde, her ekranda canlı.",heroText:"Kort tableti, hakem telefonu ve seyirci ekranı aynı maçı gerçek zamanlı paylaşır. GLASS SCORE; skor, servis, maç süresi ve kort yönetimini tek akışta birleştirir.",courts:"Kortlar",courtHint:"Bir kort seç ve kullanım modunu aç.",addCourt:"+ Kort Ekle",modes:"Modlar",courtTablet:"Kort Tableti",referee:"Hakem",tv:"TV Ekranı",manage:"Yönet",courtModeDesc:"Oyuncular için büyük +Puan butonları, oyun/set skoru, servis ve zaman göstergesi.",refModeDesc:"Telefondan puan, geri alma, servis düzeltme, duraklatma ve maç kurulumu.",tvModeDesc:"Kontrol butonu olmadan büyük canlı skor ekranı.",adminModeDesc:"Tüm kortların canlı durumunu tek ekrandan izle.",ready:"Hazır",finished:"Bitti",paused:"Duraklatıldı",live:"Canlı",newCourt:"Yeni Kort",newCourtPrompt:"Yeni kort adı:",sets:"SETLER",set:"SET",matchFinished:"MAÇ BİTTİ",tiebreak:"TIE-BREAK",deuce:"DEUCE",advantage:"ADVANTAGE",goldenPoint:"GOLDEN POINT",server:"SERVİS",point:"PUAN",addPoint:"+ PUAN",game:"GAME",matchTime:"MAÇ SÜRESİ",courtLeft:"KALAN KORT",undo:"↶ Geri",swap:"⇄ Taraf",links:"Bağlantılar",matchSettings:"Maç Ayarı",refMode:"Hakem Modu",courtAdmin:"Kort Yönetimi",pause:"Ⅱ Duraklat",resume:"▶ Devam",fixServer:"Servisi Düzelt",matchStatus:"Maç Durumu",recentActions:"Son İşlemler",noActions:"Henüz işlem yok.",status:"Durum",winner:"Kazanan",start:"Başlangıç",setup:"Maç Kur / Düzenle",renameCourt:"Kort Adını Değiştir",history:"Maç Geçmişi",noHistory:"Henüz tamamlanmış maç yok.",singleSet:"Tek Set",setupTitle:"Kort & Maç Kurulumu",setupDesc:"Kort, takımlar, oyuncular, sponsorlar ve skor kurallarını tek yerden ayarla.",courtName:"Kort İsmi",teamA:"Takım A",teamB:"Takım B",playerA1:"A1 Oyuncu",playerA2:"A2 Oyuncu",playerB1:"B1 Oyuncu",playerB2:"B2 Oyuncu",matchFormat:"Maç Formatı",scoreRule:"Skor Kuralı",courtDuration:"Kort Süresi",firstServe:"İlk Servis",serveOrder:"Servis Sırası",sponsors:"Sponsor Logoları",sponsorHelp:"Opsiyonel. Sponsorsuz maçta ekran tam boy kalır. En fazla 6 sponsor; PNG, JPG, WEBP, SVG veya PDF. Her dosya en fazla 1.5 MB.",cancel:"Vazgeç",reset:"Yeni maç olarak sıfırla",saveStart:"Kaydet & Başlat",bestOf3:"Best of 3 Set",advDeuce:"Advantage / Deuce",shareTitle:"Cihaz Bağlantıları",shareDesc:"İnternet bağlantısı olan cihazlarda aşağıdaki adresleri aç.",refPhone:"Hakem Telefonu",scoreScreen:"TV / Skor Ekranı",copy:"Adresleri Kopyala",close:"Kapat",backScore:"Skor ekranına dön",won:"kazandı",connectionError:"Bağlantı hatası",serveOrderError:"Servis sırasında her oyuncu bir kez olmalı",resetConfirm:"Mevcut maç skoru sıfırlanacak. Devam?",copied:"Adresler kopyalandı",copyFail:"Kopyalama desteklenmedi",servePicker:"Servis sırası",serveNumber:"Servis atanacak sıra numarası (1-4):",courtPrompt:"Kort adı:",tooManySponsors:"En fazla 6 sponsor yükleyebilirsin.",fileTooLarge:"dosyası 1.5 MB sınırını aşıyor.",unsupportedFile:"desteklenmeyen dosya türü.",deleteCourt:"Kort Sil",deleteCourtConfirm:"Bu kort ve maç geçmişi tamamen silinecek. Devam?",courtDeleted:"Kort silindi."},en:{connected:"Live connected",connecting:"Connecting",disconnected:"Connection lost",clubPanel:"Club Panel",heroEye:"GLASS SCORE • LIVE COURT SYSTEM",heroTitle:"One court score, live on every screen.",heroText:"Court tablet, referee phone and spectator display share the same match in real time. GLASS SCORE brings scoring, serving, match time and court control into one flow.",courts:"Courts",courtHint:"Choose a court and open a mode.",addCourt:"+ Add Court",modes:"Modes",courtTablet:"Court Tablet",referee:"Referee",tv:"TV Display",manage:"Manage",courtModeDesc:"Large point controls for players with game/set score, server and time.",refModeDesc:"Control points, undo, server, pause and match setup from a phone.",tvModeDesc:"Large read-only live scoreboard for spectators.",adminModeDesc:"Monitor all courts and match history from one place.",ready:"Ready",finished:"Finished",paused:"Paused",live:"Live",newCourt:"New Court",newCourtPrompt:"New court name:",sets:"SETS",set:"SET",matchFinished:"MATCH FINISHED",tiebreak:"TIE-BREAK",deuce:"DEUCE",advantage:"ADVANTAGE",goldenPoint:"GOLDEN POINT",server:"SERVER",point:"POINT",addPoint:"+ POINT",game:"GAME",matchTime:"MATCH TIME",courtLeft:"COURT LEFT",undo:"↶ Undo",swap:"⇄ Swap",links:"Links",matchSettings:"Match Setup",refMode:"Referee Mode",courtAdmin:"Court Management",pause:"Ⅱ Pause",resume:"▶ Resume",fixServer:"Fix Server",matchStatus:"Match Status",recentActions:"Recent Actions",noActions:"No actions yet.",status:"Status",winner:"Winner",start:"Start",setup:"Setup / Edit Match",renameCourt:"Rename Court",history:"Match History",noHistory:"No completed matches yet.",singleSet:"Single Set",setupTitle:"Court & Match Setup",setupDesc:"Set the court, teams, players, sponsors and scoring rules in one place.",courtName:"Court Name",teamA:"Team A",teamB:"Team B",playerA1:"A1 Player",playerA2:"A2 Player",playerB1:"B1 Player",playerB2:"B2 Player",matchFormat:"Match Format",scoreRule:"Scoring Rule",courtDuration:"Court Duration",firstServe:"First Server",serveOrder:"Service Order",sponsors:"Sponsor Logos",sponsorHelp:"Optional. Without sponsors, the scoreboard stays full-size. Up to 6 sponsors; PNG, JPG, WEBP, SVG or PDF. Max 1.5 MB per file.",cancel:"Cancel",reset:"Reset as new match",saveStart:"Save & Start",bestOf3:"Best of 3 Sets",advDeuce:"Advantage / Deuce",shareTitle:"Device Links",shareDesc:"Open these links on any internet-connected device.",refPhone:"Referee Phone",scoreScreen:"TV / Score Display",copy:"Copy Links",close:"Close",backScore:"Back to scoreboard",won:"won",connectionError:"Connection error",serveOrderError:"Each player must appear once in the service order",resetConfirm:"The current match score will be reset. Continue?",copied:"Links copied",copyFail:"Copy not supported",servePicker:"Service order",serveNumber:"Service position to assign (1-4):",courtPrompt:"Court name:",tooManySponsors:"You can upload up to 6 sponsors.",fileTooLarge:"exceeds the 1.5 MB limit.",unsupportedFile:"is an unsupported file type.",deleteCourt:"Delete Court",deleteCourtConfirm:"This court and its match history will be permanently deleted. Continue?",courtDeleted:"Court deleted."}};
+function tx(k){return I18N[lang][k]??I18N.tr[k]??k}function esc(s=""){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}function fmtClock(ms){ms=Math.max(0,ms||0);let sec=Math.floor(ms/1000),h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;return h?`${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`:`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`}function elapsedMs(s){if(!s?.startedAt)return 0;const end=s.endedAt||s.pausedAt||Date.now();return Math.max(0,end-s.startedAt-(s.pausedTotalMs||0))}function remainMs(s){return Math.max(0,(s.bookingMinutes||90)*60000-elapsedMs(s))}function toast(msg){const e=$("#toast");e.textContent=msg;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1700)}
+async function api(url,opts={}){const res=await fetch(url,{headers:{"Content-Type":"application/json"},...opts});if(!res.ok)throw new Error(await res.text());return res.json()}function action(action,extra={}){return api(`/api/court/${courtId}/action`,{method:"POST",body:JSON.stringify({action,...extra})}).catch(()=>toast(tx("connectionError")))}function go(c,m){location.href=`/?court=${encodeURIComponent(c)}&mode=${encodeURIComponent(m)}&lang=${lang}`}function home(){location.href=`/?lang=${lang}`}function statusText(s){if(s.status==="waiting")return tx("ready");if(s.status==="finished")return tx("finished");return s.pausedAt?tx("paused"):tx("live")}function statusClass(s){return s.status==="live"?"live":s.status==="finished"?"finished":""}
+function langSwitch(){return `<div class="langSwitch"><button class="${lang==="tr"?"active":""}" onclick="setLang('tr')">TR</button><button class="${lang==="en"?"active":""}" onclick="setLang('en')">EN</button></div>`}function setLang(v){lang=v;localStorage.setItem("glassscore-lang",v);document.documentElement.lang=v;applyStaticI18n();render()}
+function header(extra="",homeBtn=true){return `<div class="top"><div class="brand"><div class="logo"><img src="/glass-score-logo.svg" alt="GLASS SCORE"></div></div><div class="actions"><span class="connection"><i class="dot ${connected?"on":""}"></i>${connected?tx("connected"):tx("connecting")}</span>${extra}${langSwitch()}<button class="icon" onclick="toggleFull()">⛶</button>${homeBtn?`<button class="icon" onclick="home()">⌂</button>`:""}</div></div>`}
+function applyStaticI18n(){document.documentElement.lang=lang;const vals={setupTitle:"setupTitle",setupDesc:"setupDesc",courtNameLabel:"courtName",teamALabel:"teamA",teamBLabel:"teamB",a1Label:"playerA1",a2Label:"playerA2",b1Label:"playerB1",b2Label:"playerB2",formatLabel:"matchFormat",ruleLabel:"scoreRule",durationLabel:"courtDuration",firstServeLabel:"firstServe",serveOrderLabel:"serveOrder",sponsorLabel:"sponsors",sponsorHelp:"sponsorHelp",cancelSetupBtn:"cancel",resetMatchBtn:"reset",saveStartBtn:"saveStart",shareTitle:"shareTitle",shareDesc:"shareDesc",shareCourtLabel:"courtTablet",shareRefLabel:"refPhone",shareDisplayLabel:"scoreScreen",copyBtn:"copy",closeShareBtn:"close",winnerCloseBtn:"backScore"};for(const [id,key] of Object.entries(vals)){const el=document.getElementById(id);if(el)el.textContent=tx(key)}const bo=$("#bestOf"),go=$("#golden");if(bo){const val=bo.value||"3";bo.innerHTML=`<option value="3">${tx("bestOf3")}</option><option value="1">${tx("singleSet")}</option>`;bo.value=val}if(go){const val=go.value||"0";go.innerHTML=`<option value="0">${tx("advDeuce")}</option><option value="1">${tx("goldenPoint")}</option>`;go.value=val}}
+async function renderHome(){allCourts=await api("/api/courts");app.className="app";app.innerHTML=`${header(`<button class="btn" onclick="renderAdminHome()">${tx("clubPanel")}</button>`,false)}<section class="homeHero"><div class="eyebrow">${tx("heroEye")}</div><h1>${tx("heroTitle")}</h1><p>${tx("heroText")}</p></section><div class="sectionHead"><div><h2>${tx("courts")}</h2><p>${tx("courtHint")}</p></div><button class="btn" onclick="addCourt()">${tx("addCourt")}</button></div><section class="courtGrid">${allCourts.map(c=>courtCard(c)).join("")}</section><div class="sectionHead"><div><h2>${tx("modes")}</h2></div></div><section class="modeGrid"><div class="modeInfo"><b>${tx("courtTablet")}</b><small>${tx("courtModeDesc")}</small></div><div class="modeInfo"><b>${tx("refMode")}</b><small>${tx("refModeDesc")}</small></div><div class="modeInfo"><b>${tx("tv")}</b><small>${tx("tvModeDesc")}</small></div><div class="modeInfo"><b>${tx("clubPanel")}</b><small>${tx("adminModeDesc")}</small></div></section>`}
+function courtCard(c){return `<article class="courtCard ${c.active?"":"inactive"}"><div class="courtTop"><div><h3>${esc(c.name)}</h3><small style="color:var(--muted)">#${esc(c.id)}</small></div><span class="badge ${statusClass(c)}">${statusText(c)}</span></div><div class="miniScore"><div class="team">${esc(c.teams[0].name)}</div><div class="score">${c.sets[0]} · ${c.games[0]} <span style="color:var(--muted)">/</span> ${c.games[1]} · ${c.sets[1]}</div><div class="team">${esc(c.teams[1].name)}</div></div><div class="cardButtons"><button class="primary" onclick="go('${c.id}','court')">${tx("courtTablet")}</button><button class="btn" onclick="go('${c.id}','referee')">${tx("referee")}</button><button class="btn" onclick="go('${c.id}','display')">${tx("tv")}</button><button class="btn" onclick="go('${c.id}','admin')">${tx("manage")}</button></div></article>`}
+async function addCourt(){const name=prompt(tx("newCourtPrompt"),tx("newCourt"));if(!name)return;await api("/api/courts",{method:"POST",body:JSON.stringify({name})});renderHome()}async function renderAdminHome(){await renderHome();setTimeout(()=>document.querySelector(".sectionHead")?.scrollIntoView({behavior:"smooth"}),50)}
+function connect(){if(!courtId)return;if(es)es.close();es=new EventSource(`/events?court=${encodeURIComponent(courtId)}`);es.onopen=()=>{connected=true;if(state)render()};es.onmessage=async e=>{connected=true;const incoming=JSON.parse(e.data);const oldSponsorVersion=state?.sponsorVersion??0;const newSponsorVersion=incoming.sponsorVersion??0;if(state&&oldSponsorVersion===newSponsorVersion){incoming.sponsors=state.sponsors||[]}else if(oldSponsorVersion!==newSponsorVersion){try{state=await api(`/api/court/${courtId}`);render();return}catch{}}state=incoming;render()};es.addEventListener("deleted",()=>{toast(tx("courtDeleted"));setTimeout(home,400)});es.onerror=()=>{connected=false;renderConnectionOnly()}}function renderConnectionOnly(){document.querySelectorAll(".dot").forEach(d=>d.classList.toggle("on",connected));document.querySelectorAll(".connection").forEach(c=>{const n=c.lastChild;if(n)n.nodeValue=connected?tx("connected"):tx("disconnected")})}function sideTeams(){if(!state)return[0,1];return state.sidesSwapped?[1,0]:[0,1]}
+function setHistoryHtml(){if(!state.setScores?.length)return `<div class="setRow"><span>—</span><small>${tx("sets")}</small><span>—</span></div>`;const order=sideTeams();return state.setScores.map((s,i)=>`<div class="setRow"><span>${s[order[0]]}</span><small>${i+1}. ${tx("set")}</small><span>${s[order[1]]}</span></div>`).join("")}function statusChip(){if(state.status==="finished")return tx("matchFinished");if(state.pausedAt)return tx("paused").toUpperCase();if(state.tiebreak)return `${tx("tiebreak")} • ${state.setScores.length+1}. ${tx("set")}`;const p=state.pointLabels;if(!state.goldenPoint&&p[0]==="40"&&p[1]==="40")return tx("deuce");if(!state.goldenPoint&&(p[0]==="ADV"||p[1]==="ADV"))return tx("advantage");if(state.goldenPoint&&state.points?.[0]>=3&&state.points?.[1]>=3)return tx("goldenPoint");return `${state.setScores.length+1}. ${tx("set")}`}function serverTeam(){return state.currentServer?.team??0}function playerNames(team){return state.teams[team].players.map((p,i)=>{const gid=team===0?i:i+2;return `<span class="${state.currentServer?.gid===gid?"serverPlayer":""}">${esc(p)}</span>`}).join("<span>•</span>")}
+function teamCard(team,cls){const readonly=mode==="display";return `<article class="teamCard ${cls} ${serverTeam()===team?"server":""}" data-server-label="${tx("server")}"><div class="teamHead"><div class="teamName">${esc(state.teams[team].name)}</div><div class="players">${playerNames(team)}</div><div class="setLine"><span class="setPill">${tx("set")} <b>${state.sets[team]}</b></span></div></div><div class="bigScore"><div><div class="point ${String(state.pointLabels[team]).length>2?"small":""}">${state.pointLabels[team]}</div><div class="pointLabel">${state.tiebreak?tx("tiebreak"):tx("point")}</div></div></div>${readonly?"":`<button class="addPoint" onclick="action('point',{team:${team}})" ${state.status==="finished"||state.pausedAt?"disabled":""}>${tx("addPoint")}</button>`}</article>`}
+function middleHtml(){const order=sideTeams();return `<aside class="middle"><div class="status">${statusChip()}</div><div class="games"><small>${tx("game")}</small><div class="gameNums">${state.games[order[0]]}<i>–</i>${state.games[order[1]]}</div></div><div class="serverBox"><small>${tx("server")}</small><b>${esc(state.currentServer?.name||"—")}</b></div><div class="setHistory">${setHistoryHtml()}</div><div class="clocks"><div class="clock"><b id="elapsed">${fmtClock(elapsedMs(state))}</b><small>${tx("matchTime")}</small></div><div class="clock"><b id="remain">${fmtClock(remainMs(state))}</b><small>${tx("courtLeft")}</small></div></div>${mode==="display"?"":`<div class="midBtns"><button class="btn" onclick="action('undo')">${tx("undo")}</button><button class="btn" onclick="action('swap')">${tx("swap")}</button></div>`}</aside>`}
+function sponsorItemHtml(s){if(!s?.data)return"";if(s.type==="application/pdf")return `<div class="sponsorItem" title="${esc(s.name)}"><object data="${s.data}#toolbar=0&navpanes=0&scrollbar=0" type="application/pdf" aria-label="${esc(s.name)}"><div class="pdfFallback">PDF<br>${esc(s.name)}</div></object></div>`;return `<div class="sponsorItem" title="${esc(s.name)}"><img src="${s.data}" alt="${esc(s.name)}"></div>`}function sponsorStripHtml(){const arr=Array.isArray(state.sponsors)?state.sponsors:[];if(!arr.length)return"";return `<div class="sponsorStrip ${arr.length===1?"single":""}">${arr.map(sponsorItemHtml).join("")}</div>`}
+function renderScore(){const order=sideTeams();app.className=mode==="display"?"app displayMode":"app";const extra=mode==="display"?"":`<button class="btn compactBtn" data-short="↗" onclick="openShare()"><span>${tx("links")}</span></button><button class="btn compactBtn" data-short="⚙" onclick="openSetup()"><span>${tx("matchSettings")}</span></button>`;const hasSponsors=Array.isArray(state.sponsors)&&state.sponsors.length>0;app.innerHTML=`${header(extra,true)}<div class="scoreShell ${hasSponsors?"":"noSponsors"}"><section class="scoreLayout">${teamCard(order[0],"teamA")}${middleHtml()}${teamCard(order[1],"teamB")}</section>${sponsorStripHtml()}</div>`;startTimers();maybeWinner()}
+function startTimers(){clearInterval(timerInterval);timerInterval=setInterval(()=>{const e=$("#elapsed"),r=$("#remain");if(e)e.textContent=fmtClock(elapsedMs(state));if(r){r.textContent=fmtClock(remainMs(state));r.classList.toggle("warning",remainMs(state)<=5*60000)}},1000)}function maybeWinner(){if(state.status==="finished"&&state.winner!==null&&lastFinishedMatchId!==state.matchId){lastFinishedMatchId=state.matchId;$("#winnerTitle").textContent=`${state.teams[state.winner].name} ${tx("won")}`;$("#winnerScore").textContent=state.setScores.map(s=>`${s[0]}-${s[1]}`).join(" • ");$("#winner").classList.add("open")}}
+function renderReferee(){const s=serverTeam();app.className="app";app.innerHTML=`${header(`<button class="btn" onclick="openShare()">${tx("links")}</button><button class="btn" onclick="openSetup()">${tx("matchSettings")}</button>`)}<div class="refGrid">${[0,1].map(team=>`<div class="refTeam ${s===team?"server":""}"><h2>${esc(state.teams[team].name)}</h2><div class="refPlayers">${esc(state.teams[team].players.join(" • "))}</div><div class="refPoint">${state.pointLabels[team]}</div><button class="primary" onclick="action('point',{team:${team}})" ${state.status==="finished"||state.pausedAt?"disabled":""}>${tx("addPoint")}</button></div>`).join("")}</div><div class="refTools"><button class="btn" onclick="action('undo')">${tx("undo")}</button><button class="btn" onclick="action('swap')">${tx("swap")}</button><button class="btn" onclick="action('${state.pausedAt?"resume":"pause"}')">${state.pausedAt?tx("resume"):tx("pause")}</button><button class="btn" onclick="openServerPicker()">${tx("fixServer")}</button></div><section class="panel"><h3>${tx("matchStatus")}</h3><div class="miniScore"><div class="team">${esc(state.teams[0].name)}</div><div class="score">${state.sets[0]} ${tx("set")} · ${state.games[0]}-${state.games[1]} ${tx("game")} · ${state.sets[1]} ${tx("set")}</div><div class="team">${esc(state.teams[1].name)}</div></div><p>${statusChip()} · ${tx("server")}: <b style="color:var(--text)">${esc(state.currentServer.name)}</b> · <b id="elapsed">${fmtClock(elapsedMs(state))}</b> · <b id="remain">${fmtClock(remainMs(state))}</b></p></section><section class="panel"><h3>${tx("recentActions")}</h3><div class="log">${[...state.log].reverse().slice(0,20).map(l=>`<div class="logItem"><span>${esc(l.text)}</span><span>${new Date(l.at).toLocaleTimeString(lang==="tr"?"tr-TR":"en-GB",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}</span></div>`).join("")||`<p>${tx("noActions")}</p>`}</div></section>`;startTimers();maybeWinner()}
+function renderAdmin(){app.className="app";app.innerHTML=`${header(`<button class="btn" onclick="openShare()">${tx("links")}</button>`)}<section class="panel"><h3>${esc(state.name)}</h3><div class="adminRow"><div><strong>${tx("status")}</strong><small>${statusText(state)}</small></div><div><strong>${tx("set")}</strong><small>${state.sets[0]} - ${state.sets[1]}</small></div><div><strong>${tx("game")}</strong><small>${state.games[0]} - ${state.games[1]}</small></div><div><button class="primary" onclick="openSetup()">${tx("setup")}</button></div></div><div class="modalActions" style="justify-content:flex-start"><button class="btn" onclick="renameCourt()">${tx("renameCourt")}</button><button class="btn" onclick="go('${courtId}','court')">${tx("courtTablet")}</button><button class="btn" onclick="go('${courtId}','referee')">${tx("referee")}</button><button class="btn" onclick="go('${courtId}','display')">${tx("tv")}</button><button class="danger" onclick="deleteCourt()">${tx("deleteCourt")}</button></div></section><section class="panel"><h3>${tx("history")}</h3><div class="adminTable">${[...(state.history||[])].reverse().map(h=>`<div class="adminRow"><div><strong>${esc(h.teams[0].name)} vs ${esc(h.teams[1].name)}</strong><small>${h.setScores.map(s=>s.join("-")).join(" • ")}</small></div><div><strong>${h.winner===null?"—":esc(h.teams[h.winner].name)}</strong><small>${tx("winner")}</small></div><div><strong>${new Date(h.startedAt).toLocaleString(lang==="tr"?"tr-TR":"en-GB")}</strong><small>${tx("start")}</small></div><div><small>${h.goldenPoint?tx("goldenPoint"):tx("advantage")} · ${h.bestOf===1?tx("singleSet"):tx("bestOf3")}</small></div></div>`).join("")||`<p>${tx("noHistory")}</p>`}</div></section>`}
+async function render(){applyStaticI18n();if(!courtId)return renderHome();if(!state)state=await api(`/api/court/${courtId}`);if(mode==="referee")renderReferee();else if(mode==="admin")renderAdmin();else renderScore()}
+function openSetup(){const m=state;pendingSponsors=JSON.parse(JSON.stringify(m.sponsors||[]));$("#courtNameInput").value=state.name;$("#teamAName").value=m.teams[0].name;$("#teamBName").value=m.teams[1].name;$("#a1").value=m.teams[0].players[0];$("#a2").value=m.teams[0].players[1];$("#b1").value=m.teams[1].players[0];$("#b2").value=m.teams[1].players[1];applyStaticI18n();$("#bestOf").value=String(m.bestOf);$("#golden").value=m.goldenPoint?"1":"0";$("#booking").value=String(m.bookingMinutes);refreshServiceSelectors();renderSponsorPreview();$("#setupModal").classList.add("open")}
+function playerOptions(){return[{gid:0,label:$("#a1").value||"A1"},{gid:2,label:$("#b1").value||"B1"},{gid:1,label:$("#a2").value||"A2"},{gid:3,label:$("#b2").value||"B2"}]}function refreshServiceSelectors(){const p=playerOptions();$("#firstServer").innerHTML=p.map((x,i)=>`<option value="${i}">${esc(x.label)}</option>`).join("");$("#firstServer").value=String(state.servicePos||0);$("#serviceOrderFields").innerHTML=[0,1,2,3].map((_,i)=>`<select id="so${i}">${p.map(x=>`<option value="${x.gid}" ${state.serviceOrder[i]===x.gid?"selected":""}>${esc(x.label)}</option>`).join("")}</select>`).join("")}
+function renderSponsorPreview(){$("#sponsorPreview").innerHTML=pendingSponsors.map((s,i)=>`<div class="sponsorPreviewCard">${s.type==="application/pdf"?`<div class="pdfBadge">PDF<br>${esc(s.name)}</div>`:`<img src="${s.data}" alt="${esc(s.name)}">`}<button onclick="removeSponsor(${i})">×</button></div>`).join("")}function removeSponsor(i){pendingSponsors.splice(i,1);renderSponsorPreview()}async function handleSponsorFiles(files){const allowed=new Set(["image/png","image/jpeg","image/webp","image/svg+xml","application/pdf"]);for(const f of files){if(pendingSponsors.length>=6){toast(tx("tooManySponsors"));break}if(!allowed.has(f.type)){toast(`${f.name} ${tx("unsupportedFile")}`);continue}if(f.size>1.5*1024*1024){toast(`${f.name} ${tx("fileTooLarge")}`);continue}const data=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(f)});pendingSponsors.push({name:f.name,type:f.type,data})}renderSponsorPreview();$("#sponsorFiles").value=""}
+document.addEventListener("change",e=>{if(e.target.id==="sponsorFiles")handleSponsorFiles([...e.target.files])});["a1","a2","b1","b2"].forEach(id=>document.addEventListener("input",e=>{if(e.target.id===id&&$("#setupModal").classList.contains("open"))refreshServiceSelectors()}));
+function setupPayload(){const serviceOrder=[0,1,2,3].map(i=>Number($(`#so${i}`).value));if(new Set(serviceOrder).size!==4){toast(tx("serveOrderError"));throw new Error("service order")}return{teams:[{name:$("#teamAName").value||"TEAM A",players:[$("#a1").value||"A1",$("#a2").value||"A2"]},{name:$("#teamBName").value||"TEAM B",players:[$("#b1").value||"B1",$("#b2").value||"B2"]}],bestOf:Number($("#bestOf").value),goldenPoint:$("#golden").value==="1",bookingMinutes:Number($("#booking").value),serviceOrder,servicePos:Number($("#firstServer").value),sponsors:pendingSponsors}}
+async function syncCourtName(){const name=$("#courtNameInput").value.trim();if(name&&name!==state.name)await action("renameCourt",{name})}async function saveAndStart(){try{const setup=setupPayload();await syncCourtName();await action("start",{setup});closeSetup()}catch{}}async function newMatchFromSetup(){if(!confirm(tx("resetConfirm")))return;try{const setup=setupPayload();await syncCourtName();await action("newMatch",{setup});await action("start",{setup});closeSetup()}catch{}}function closeSetup(){$("#setupModal").classList.remove("open")}
+function openShare(){const base=location.origin,langQ=`&lang=${lang}`;$("#shareCourt").textContent=`${base}/?court=${courtId}&mode=court${langQ}`;$("#shareRef").textContent=`${base}/?court=${courtId}&mode=referee${langQ}`;$("#shareDisplay").textContent=`${base}/?court=${courtId}&mode=display${langQ}`;applyStaticI18n();$("#shareModal").classList.add("open")}function closeShare(){$("#shareModal").classList.remove("open")}async function copyCurrentShare(){const txt=`${tx("courtTablet")}: ${$("#shareCourt").textContent}\n${tx("referee")}: ${$("#shareRef").textContent}\n${tx("tv")}: ${$("#shareDisplay").textContent}`;try{await navigator.clipboard.writeText(txt);toast(tx("copied"))}catch{toast(tx("copyFail"))}}
+function openServerPicker(){const items=state.serviceOrder.map((gid,pos)=>`${pos+1}) ${gid===0?state.teams[0].players[0]:gid===1?state.teams[0].players[1]:gid===2?state.teams[1].players[0]:state.teams[1].players[1]}`).join("\n");const n=prompt(`${tx("servePicker")}:\n${items}\n\n${tx("serveNumber")}`,String(state.servicePos+1));const pos=Number(n)-1;if(pos>=0&&pos<=3)action("setServer",{servicePos:pos})}async function renameCourt(){const name=prompt(tx("courtPrompt"),state.name);if(name)await action("renameCourt",{name})}async function deleteCourt(){if(!confirm(`${state.name}
 
-const $ = s => document.querySelector(s);
-const app = $("#app");
-
-function esc(s=""){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
-function fmtClock(ms){
-  ms=Math.max(0,ms||0); let sec=Math.floor(ms/1000),h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;
-  return h?`${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`:`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
-}
-function elapsedMs(s){
-  if(!s?.startedAt)return 0;
-  const end=s.endedAt || s.pausedAt || Date.now();
-  return Math.max(0,end-s.startedAt-(s.pausedTotalMs||0));
-}
-function remainMs(s){return Math.max(0,(s.bookingMinutes||90)*60000-elapsedMs(s))}
-function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1600)}
-async function api(url,opts={}){
-  const res=await fetch(url,{headers:{"Content-Type":"application/json"},...opts});
-  if(!res.ok)throw new Error(await res.text());
-  return res.json();
-}
-function action(action,extra={}){
-  return api(`/api/court/${courtId}/action`,{method:"POST",body:JSON.stringify({action,...extra})}).catch(e=>toast("Bağlantı hatası"));
-}
-function go(c,m){location.href=`/?court=${encodeURIComponent(c)}&mode=${encodeURIComponent(m)}`}
-function home(){location.href="/"}
-function statusText(s){
-  if(s.status==="waiting")return "Hazır";
-  if(s.status==="finished")return "Bitti";
-  return s.pausedAt?"Duraklatıldı":"Canlı";
-}
-function statusClass(s){return s.status==="live"?"live":s.status==="finished"?"finished":""}
-function header(title,sub,extra=""){
- return `<div class="top"><div class="brand"><div class="logo"><img src="/glass-score-logo.svg" alt="GLASS SCORE"></div><div><b>${esc(title)}</b><small>${esc(sub||"GLASS SCORE")}</small></div></div><div class="actions">
- <span class="connection"><i class="dot ${connected?"on":""}"></i>${connected?"Canlı bağlı":"Bağlanıyor"}</span>${extra}
- <button class="icon" onclick="toggleFull()">⛶</button><button class="icon" onclick="home()">⌂</button></div></div>`;
-}
-function modeLabel(){return mode==="referee"?"Hakem Modu":mode==="display"?"TV / Ekran Modu":mode==="admin"?"Kulüp Paneli":"Kort Tableti"}
-
-async function renderHome(){
-  allCourts=await api("/api/courts");
-  app.innerHTML=`${header("GLASS SCORE","Padel skor ve kort yönetimi",`<button class="btn" onclick="renderAdminHome()">Kulüp Paneli</button>`) }
-  <section class="homeHero"><div class="eyebrow">GLASS SCORE • LIVE COURT SYSTEM</div><h1>Kortun skoru tek merkezde, her ekranda canlı.</h1><p>Kort tableti, hakem telefonu ve seyirci ekranı aynı maçı gerçek zamanlı paylaşır. GLASS SCORE; skor, servis, maç süresi ve kort yönetimini tek akışta birleştirir.</p></section>
-  <div class="sectionHead"><div><h2>Kortlar</h2><p>Bir kort seç ve kullanım modunu aç.</p></div><button class="btn" onclick="addCourt()">+ Kort Ekle</button></div>
-  <section class="courtGrid">${allCourts.map(c=>courtCard(c)).join("")}</section>
-  <div class="sectionHead"><div><h2>Modlar</h2></div></div>
-  <section class="modeGrid">
-  <div class="modeInfo"><b>Kort Tableti</b><small>Oyuncular için büyük +Puan butonları, oyun/set skoru, servis ve zaman göstergesi.</small></div>
-  <div class="modeInfo"><b>Hakem Modu</b><small>Telefondan puan, geri alma, servis düzeltme, duraklatma ve maç kurulumu.</small></div>
-  <div class="modeInfo"><b>TV / Ekran</b><small>Kontrol butonu olmadan büyük canlı skor ekranı.</small></div>
-  <div class="modeInfo"><b>Kulüp Paneli</b><small>Tüm kortların canlı durumunu tek ekrandan izle.</small></div>
-  </section>`;
-}
-function courtCard(c){
-  return `<article class="courtCard ${c.active?"":"inactive"}"><div class="courtTop"><div><h3>${esc(c.name)}</h3><small style="color:var(--muted)">#${esc(c.id)}</small></div><span class="badge ${statusClass(c)}">${statusText(c)}</span></div>
-  <div class="miniScore"><div class="team">${esc(c.teams[0].name)}</div><div class="score">${c.sets[0]} · ${c.games[0]} <span style="color:var(--muted)">/</span> ${c.games[1]} · ${c.sets[1]}</div><div class="team">${esc(c.teams[1].name)}</div></div>
-  <div class="cardButtons"><button class="primary" onclick="go('${c.id}','court')">Kort Tableti</button><button class="btn" onclick="go('${c.id}','referee')">Hakem</button><button class="btn" onclick="go('${c.id}','display')">TV Ekranı</button><button class="btn" onclick="go('${c.id}','admin')">Yönet</button></div></article>`;
-}
-async function addCourt(){
-  const name=prompt("Yeni kort adı:","Yeni Kort"); if(!name)return;
-  await api("/api/courts",{method:"POST",body:JSON.stringify({name})}); renderHome();
-}
-async function renderAdminHome(){mode="adminHome";await renderHome();setTimeout(()=>document.querySelector(".sectionHead")?.scrollIntoView({behavior:"smooth"}),50)}
-
-function connect(){
-  if(!courtId)return;
-  if(es)es.close();
-  es=new EventSource(`/events?court=${encodeURIComponent(courtId)}`);
-  es.onopen=()=>{connected=true; if(state) render();}
-  es.onmessage=e=>{
-    connected=true;
-    state=JSON.parse(e.data);
-    render();
-  };
-  es.onerror=()=>{connected=false; renderConnectionOnly()};
-}
-function renderConnectionOnly(){
-  document.querySelectorAll(".dot").forEach(d=>d.classList.toggle("on",connected));
-  document.querySelectorAll(".connection").forEach(c=>c.lastChild&&(c.lastChild.nodeValue=connected?"Canlı bağlı":"Bağlantı koptu"));
-}
-function sideTeams(){
-  if(!state)return [0,1];
-  return state.sidesSwapped?[1,0]:[0,1];
-}
-function setHistoryHtml(){
-  if(!state.setScores?.length)return `<div class="setRow"><span>—</span><small>SETLER</small><span>—</span></div>`;
-  const order=sideTeams();
-  return state.setScores.map((s,i)=>`<div class="setRow"><span>${s[order[0]]}</span><small>${i+1}. SET</small><span>${s[order[1]]}</span></div>`).join("");
-}
-function statusChip(){
-  if(state.status==="finished")return "MAÇ BİTTİ";
-  if(state.pausedAt)return "DURAKLATILDI";
-  if(state.tiebreak)return `TIE-BREAK • ${state.setScores.length+1}. SET`;
-  const p=state.pointLabels;
-  if(!state.goldenPoint && p[0]==="40"&&p[1]==="40")return "DEUCE";
-  if(!state.goldenPoint && (p[0]==="ADV"||p[1]==="ADV"))return "ADVANTAGE";
-  if(state.goldenPoint && state.points?.[0]>=3 && state.points?.[1]>=3)return "GOLDEN POINT";
-  return `${state.setScores.length+1}. SET`;
-}
-function serverTeam(){return state.currentServer?.team ?? 0}
-function playerNames(t){
-  return state.teams[t].players.map((p,i)=>{
-    const gid=t===0?i:i+2;
-    return `<span class="${state.currentServer?.gid===gid?"serverPlayer":""}">${esc(p)}</span>`;
-  }).join("<span>•</span>");
-}
-function teamCard(t,cls){
-  const readonly=mode==="display";
-  return `<article class="teamCard ${cls} ${serverTeam()===t?"server":""}" data-team="${t}">
-  <div class="teamHead"><div class="teamName">${esc(state.teams[t].name)}</div><div class="players">${playerNames(t)}</div>
-  <div class="setLine"><span class="setPill">SET <b>${state.sets[t]}</b></span></div></div>
-  <div class="bigScore"><div><div class="point ${String(state.pointLabels[t]).length>2?"small":""}">${state.pointLabels[t]}</div><div class="pointLabel">${state.tiebreak?"TIE-BREAK":"PUAN"}</div></div></div>
-  ${readonly?"":`<button class="addPoint" onclick="action('point',{team:${t}})" ${state.status==="finished"||state.pausedAt?"disabled":""}>+ PUAN</button>`}
-  </article>`;
-}
-function middleHtml(){
-  const order=sideTeams();
-  return `<aside class="middle"><div class="status">${statusChip()}</div>
-  <div class="games"><small>GAME</small><div class="gameNums">${state.games[order[0]]}<i>–</i>${state.games[order[1]]}</div></div>
-  <div class="serverBox"><small>SERVİS</small><b>${esc(state.currentServer?.name||"—")}</b></div>
-  <div class="setHistory">${setHistoryHtml()}</div>
-  <div class="clocks"><div class="clock"><b id="elapsed">${fmtClock(elapsedMs(state))}</b><small>MAÇ SÜRESİ</small></div><div class="clock"><b id="remain">${fmtClock(remainMs(state))}</b><small>KALAN KORT</small></div></div>
-  ${mode==="display"?"":`<div class="midBtns"><button class="btn" onclick="action('undo')">↶ Geri</button><button class="btn" onclick="action('swap')">⇄ Taraf</button></div>`}
-  </aside>`;
-}
-function renderScore(){
-  const order=sideTeams();
-  app.className=mode==="display"?"app displayMode":"app";
-  app.innerHTML=`${mode==="display"?"":header(state.name,modeLabel(),`<button class="btn" onclick="openShare()">Bağlantılar</button><button class="btn" onclick="openSetup()">Maç Ayarı</button>`)}
-  <section class="scoreLayout">${teamCard(order[0],"teamA")}${middleHtml()}${teamCard(order[1],"teamB")}</section>`;
-  startTimers();
-  maybeWinner();
-}
-function startTimers(){
-  clearInterval(timerInterval);
-  timerInterval=setInterval(()=>{
-    const e=$("#elapsed"),r=$("#remain");
-    if(e)e.textContent=fmtClock(elapsedMs(state));
-    if(r){r.textContent=fmtClock(remainMs(state));r.classList.toggle("warning",remainMs(state)<=5*60000);}
-  },1000);
-}
-function maybeWinner(){
-  if(state.status==="finished"&&state.winner!==null&&lastFinishedMatchId!==state.matchId){
-    lastFinishedMatchId=state.matchId;
-    $("#winnerTitle").textContent=`${state.teams[state.winner].name} kazandı`;
-    $("#winnerScore").textContent=state.setScores.map(s=>`${s[0]}-${s[1]}`).join(" • ");
-    $("#winner").classList.add("open");
-  }
-}
-function renderReferee(){
-  const s=serverTeam();
-  app.className="app";
-  app.innerHTML=`${header(state.name,"Hakem Modu",`<button class="btn" onclick="openShare()">Bağlantılar</button><button class="btn" onclick="openSetup()">Maç Ayarı</button>`)}
-  <div class="refGrid">
-  ${[0,1].map(t=>`<div class="refTeam ${s===t?"server":""}"><h2>${esc(state.teams[t].name)}</h2><div class="refPlayers">${esc(state.teams[t].players.join(" • "))}</div><div class="refPoint">${state.pointLabels[t]}</div><button class="primary" onclick="action('point',{team:${t}})" ${state.status==="finished"||state.pausedAt?"disabled":""}>+ PUAN</button></div>`).join("")}
-  </div>
-  <div class="refTools"><button class="btn" onclick="action('undo')">↶ Geri Al</button><button class="btn" onclick="action('swap')">⇄ Taraf Değiştir</button><button class="btn" onclick="action('${state.pausedAt?"resume":"pause"}')">${state.pausedAt?"▶ Devam":"Ⅱ Duraklat"}</button><button class="btn" onclick="openServerPicker()">Servisi Düzelt</button></div>
-  <section class="panel"><h3>Maç Durumu</h3><div class="miniScore"><div class="team">${esc(state.teams[0].name)}</div><div class="score">${state.sets[0]} SET · ${state.games[0]}-${state.games[1]} GAME · ${state.sets[1]} SET</div><div class="team">${esc(state.teams[1].name)}</div></div><p>${statusChip()} · Servis: <b style="color:var(--text)">${esc(state.currentServer.name)}</b> · Maç <b id="elapsed">${fmtClock(elapsedMs(state))}</b> · Kort kalan <b id="remain">${fmtClock(remainMs(state))}</b></p></section>
-  <section class="panel"><h3>Son İşlemler</h3><div class="log">${[...state.log].reverse().slice(0,20).map(l=>`<div class="logItem"><span>${esc(l.text)}</span><span>${new Date(l.at).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}</span></div>`).join("")||"<p>Henüz işlem yok.</p>"}</div></section>`;
-  startTimers(); maybeWinner();
-}
-function renderAdmin(){
-  app.className="app";
-  app.innerHTML=`${header(state.name,"Kort Yönetimi",`<button class="btn" onclick="openShare()">Bağlantılar</button>`)}
-  <section class="panel"><h3>${esc(state.name)}</h3>
-  <div class="adminRow"><div><strong>Durum</strong><small>${statusText(state)}</small></div><div><strong>Set</strong><small>${state.sets[0]} - ${state.sets[1]}</small></div><div><strong>Game</strong><small>${state.games[0]} - ${state.games[1]}</small></div><div><button class="primary" onclick="openSetup()">Maç Kur / Düzenle</button></div></div>
-  <div class="modalActions" style="justify-content:flex-start"><button class="btn" onclick="renameCourt()">Kort Adını Değiştir</button><button class="btn" onclick="go('${courtId}','court')">Kort Tableti</button><button class="btn" onclick="go('${courtId}','referee')">Hakem</button><button class="btn" onclick="go('${courtId}','display')">TV</button></div></section>
-  <section class="panel"><h3>Maç Geçmişi</h3><div class="adminTable">${[...(state.history||[])].reverse().map(h=>`<div class="adminRow"><div><strong>${esc(h.teams[0].name)} vs ${esc(h.teams[1].name)}</strong><small>${h.setScores.map(s=>s.join("-")).join(" • ")}</small></div><div><strong>${h.winner===null?"—":esc(h.teams[h.winner].name)}</strong><small>Kazanan</small></div><div><strong>${new Date(h.startedAt).toLocaleString("tr-TR")}</strong><small>Başlangıç</small></div><div><small>${h.goldenPoint?"Golden Point":"Advantage"} · ${h.bestOf===1?"Tek Set":"Best of 3"}</small></div></div>`).join("")||"<p>Henüz tamamlanmış maç yok.</p>"}</div></section>`;
-}
-async function render(){
-  if(!courtId){return renderHome();}
-  if(!state){state=await api(`/api/court/${courtId}`);}
-  if(mode==="referee")renderReferee();
-  else if(mode==="admin")renderAdmin();
-  else renderScore();
-}
-function openSetup(){
-  const m=state;
-  $("#teamAName").value=m.teams[0].name;$("#teamBName").value=m.teams[1].name;
-  $("#a1").value=m.teams[0].players[0];$("#a2").value=m.teams[0].players[1];
-  $("#b1").value=m.teams[1].players[0];$("#b2").value=m.teams[1].players[1];
-  $("#bestOf").value=String(m.bestOf);$("#golden").value=m.goldenPoint?"1":"0";$("#booking").value=String(m.bookingMinutes);
-  refreshServiceSelectors();
-  $("#setupModal").classList.add("open");
-}
-function playerOptions(){
-  return [
-    {gid:0,label:$("#a1").value||"A1"},{gid:2,label:$("#b1").value||"B1"},
-    {gid:1,label:$("#a2").value||"A2"},{gid:3,label:$("#b2").value||"B2"}
-  ];
-}
-function refreshServiceSelectors(){
-  const p=playerOptions();
-  $("#firstServer").innerHTML=p.map((x,i)=>`<option value="${i}">${esc(x.label)}</option>`).join("");
-  $("#firstServer").value=String(state.servicePos||0);
-  $("#serviceOrderFields").innerHTML=[0,1,2,3].map((_,i)=>`<select id="so${i}">${p.map(x=>`<option value="${x.gid}" ${state.serviceOrder[i]===x.gid?"selected":""}>${esc(x.label)}</option>`).join("")}</select>`).join("");
-}
-["a1","a2","b1","b2"].forEach(id=>document.addEventListener("input",e=>{if(e.target.id===id&&$("#setupModal").classList.contains("open"))refreshServiceSelectors()}));
-function setupPayload(){
-  const serviceOrder=[0,1,2,3].map(i=>Number($(`#so${i}`).value));
-  if(new Set(serviceOrder).size!==4){toast("Servis sırasında her oyuncu bir kez olmalı");throw new Error("service order");}
-  return {teams:[
-    {name:$("#teamAName").value||"TAKIM A",players:[$("#a1").value||"A1",$("#a2").value||"A2"]},
-    {name:$("#teamBName").value||"TAKIM B",players:[$("#b1").value||"B1",$("#b2").value||"B2"]}
-  ],bestOf:Number($("#bestOf").value),goldenPoint:$("#golden").value==="1",bookingMinutes:Number($("#booking").value),serviceOrder,servicePos:Number($("#firstServer").value)};
-}
-async function saveAndStart(){
-  try{await action("start",{setup:setupPayload()});closeSetup();}catch{}
-}
-async function newMatchFromSetup(){
-  if(!confirm("Mevcut maç skoru sıfırlanacak. Devam?"))return;
-  try{await action("newMatch",{setup:setupPayload()});await action("start",{setup:setupPayload()});closeSetup();}catch{}
-}
-function closeSetup(){$("#setupModal").classList.remove("open")}
-function openShare(){
-  const base=location.origin;
-  $("#shareCourt").textContent=`${base}/?court=${courtId}&mode=court`;
-  $("#shareRef").textContent=`${base}/?court=${courtId}&mode=referee`;
-  $("#shareDisplay").textContent=`${base}/?court=${courtId}&mode=display`;
-  $("#shareModal").classList.add("open");
-}
-function closeShare(){$("#shareModal").classList.remove("open")}
-async function copyCurrentShare(){
-  const txt=`Kort: ${$("#shareCourt").textContent}\nHakem: ${$("#shareRef").textContent}\nTV: ${$("#shareDisplay").textContent}`;
-  try{await navigator.clipboard.writeText(txt);toast("Adresler kopyalandı")}catch{toast("Kopyalama desteklenmedi")}
-}
-function openServerPicker(){
-  const items=state.serviceOrder.map((gid,pos)=>`${pos+1}) ${gid===0?state.teams[0].players[0]:gid===1?state.teams[0].players[1]:gid===2?state.teams[1].players[0]:state.teams[1].players[1]}`).join("\n");
-  const n=prompt(`Servis sırası:\n${items}\n\nServis atanacak sıra numarası (1-4):`,String(state.servicePos+1));
-  const pos=Number(n)-1;if(pos>=0&&pos<=3)action("setServer",{servicePos:pos});
-}
-async function renameCourt(){
-  const name=prompt("Kort adı:",state.name);if(name)await action("renameCourt",{name});
-}
-async function toggleFull(){
-  try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch{}
-}
-document.addEventListener("keydown",e=>{
-  if(["INPUT","SELECT"].includes(document.activeElement?.tagName))return;
-  if(!courtId||mode==="display"||mode==="admin")return;
-  if(e.key.toLowerCase()==="a")action("point",{team:0});
-  if(e.key.toLowerCase()==="l")action("point",{team:1});
-  if(e.key.toLowerCase()==="z")action("undo");
-});
-
-(async()=>{if(courtId){state=await api(`/api/court/${courtId}`);render();connect();}else renderHome();})();
+${tx("deleteCourtConfirm")}`))return;try{await api(`/api/court/${courtId}`,{method:"DELETE"});toast(tx("courtDeleted"));setTimeout(home,350)}catch{toast(tx("connectionError"))}}async function toggleFull(){try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch{}}
+document.addEventListener("keydown",e=>{if(["INPUT","SELECT"].includes(document.activeElement?.tagName))return;if(!courtId||mode==="display"||mode==="admin")return;if(e.key.toLowerCase()==="a")action("point",{team:0});if(e.key.toLowerCase()==="l")action("point",{team:1});if(e.key.toLowerCase()==="z")action("undo")});
+applyStaticI18n();(async()=>{if(courtId){state=await api(`/api/court/${courtId}`);render();connect()}else renderHome()})();
 </script>
 </body>
 </html>
