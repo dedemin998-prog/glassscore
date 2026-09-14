@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const os = require("os");
 const { URL } = require("url");
+const { Pool } = require("pg");
 
 const PORT = Number(process.env.PORT || 8080);
 const HOST = "0.0.0.0";
@@ -59,39 +60,102 @@ function newCourt(id, name) {
   };
 }
 
-let db = { version: 2, nextCourtId: 5, courts: [newCourt(1), newCourt(2), newCourt(3), newCourt(4)] };
+let db = { version: 3, nextCourtId: 5, courts: [newCourt(1), newCourt(2), newCourt(3), newCourt(4)] };
 const undoStacks = new Map();
 const clients = new Map();
 
-function load() {
+let pool = null;
+let persistChain = Promise.resolve();
+
+function normalizeLoadedDb(parsed) {
+  if (!parsed || !Array.isArray(parsed.courts)) return false;
+  db = parsed;
+  db.version = 3;
+  const maxId = db.courts.reduce((m,c) => Math.max(m, Number(c.id)||0), 0);
+  if (!Number.isInteger(db.nextCourtId) || db.nextCourtId <= maxId) db.nextCourtId = maxId + 1;
+  for (const court of db.courts) {
+    if (!court.match) court.match = newMatchState();
+    if (!Array.isArray(court.history)) court.history = [];
+    if (!Array.isArray(court.match.sponsors)) court.match.sponsors = [];
+    if (!Number.isInteger(court.match.sponsorVersion)) court.match.sponsorVersion = court.match.sponsors.length ? 1 : 0;
+  }
+  return true;
+}
+
+function loadFileFallback() {
   try {
     if (fs.existsSync(DATA_FILE)) {
       const parsed = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
-      if (parsed && Array.isArray(parsed.courts)) {
-        db = parsed;
-        db.version = 2;
-        const maxId = db.courts.reduce((m,c) => Math.max(m, Number(c.id)||0), 0);
-        if (!Number.isInteger(db.nextCourtId) || db.nextCourtId <= maxId) db.nextCourtId = maxId + 1;
-        for (const court of db.courts) {
-          if (!court.match) court.match = newMatchState();
-          if (!Array.isArray(court.history)) court.history = [];
-          if (!Array.isArray(court.match.sponsors)) court.match.sponsors = [];
-          if (!Number.isInteger(court.match.sponsorVersion)) court.match.sponsorVersion = court.match.sponsors.length ? 1 : 0;
-        }
-      }
+      normalizeLoadedDb(parsed);
     }
   } catch (e) {
     console.error("data.json okunamadı:", e.message);
   }
 }
-function persist() {
-  try {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(db, null, 2), "utf8");
-  } catch (e) {
-    console.error("data.json yazılamadı:", e.message);
+
+async function initPersistence() {
+  const databaseUrl = process.env.DATABASE_URL;
+  if (!databaseUrl) {
+    console.warn("DATABASE_URL yok: yerel data.json yedeği kullanılacak.");
+    loadFileFallback();
+    return;
+  }
+
+  pool = new Pool({
+    connectionString: databaseUrl,
+    ssl: databaseUrl.includes("localhost") || databaseUrl.includes("127.0.0.1")
+      ? false
+      : { rejectUnauthorized: false }
+  });
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS glass_score_state (
+      id INTEGER PRIMARY KEY,
+      data JSONB NOT NULL,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `);
+
+  const result = await pool.query("SELECT data FROM glass_score_state WHERE id = 1");
+  if (result.rowCount && normalizeLoadedDb(result.rows[0].data)) {
+    console.log("PostgreSQL: kayıtlı GLASS SCORE durumu yüklendi.");
+  } else {
+    await pool.query(
+      `INSERT INTO glass_score_state (id, data, updated_at)
+       VALUES (1, $1::jsonb, NOW())
+       ON CONFLICT (id) DO UPDATE SET data = EXCLUDED.data, updated_at = NOW()`,
+      [JSON.stringify(db)]
+    );
+    console.log("PostgreSQL: ilk GLASS SCORE kaydı oluşturuldu.");
   }
 }
-load();
+
+function persist() {
+  const snapshot = deepClone(db);
+  if (!pool) {
+    try {
+      fs.writeFileSync(DATA_FILE, JSON.stringify(snapshot, null, 2), "utf8");
+    } catch (e) {
+      console.error("data.json yazılamadı:", e.message);
+    }
+    return Promise.resolve();
+  }
+
+  // Puan işlemleri peş peşe geldiğinde DB yazımlarını sıraya alıyoruz.
+  persistChain = persistChain
+    .catch(() => {})
+    .then(() => pool.query(
+      `INSERT INTO glass_score_state (id, data, updated_at)
+       VALUES (1, $1::jsonb, NOW())
+       ON CONFLICT (id) DO UPDATE SET data = EXCLUDED.data, updated_at = NOW()`,
+      [JSON.stringify(snapshot)]
+    ))
+    .catch((e) => {
+      console.error("PostgreSQL kayıt hatası:", e.message);
+      throw e;
+    });
+  return persistChain;
+}
 
 function getCourt(id) {
   return db.courts.find(c => String(c.id) === String(id));
@@ -379,7 +443,7 @@ function updateSetup(court, setup) {
   if ("servicePos" in setup) m.servicePos = Math.max(0, Math.min(3, Number(setup.servicePos) || 0));
 }
 
-function applyAction(court, body) {
+async function applyAction(court, body) {
   const action = body.action;
   const m = court.match;
 
@@ -432,7 +496,7 @@ function applyAction(court, body) {
     court.active = !court.active;
   }
   archiveIfNeeded(court);
-  persist();
+  await persist();
   broadcast(court.id);
   return summarizeCourtLive(court);
 }
@@ -499,7 +563,7 @@ const server = http.createServer(async (req, res) => {
     db.nextCourtId = Number(id) + 1;
     const c = newCourt(id, String(body.name || `Kort ${id}`).slice(0,40));
     db.courts.push(c);
-    persist();
+    await persist();
     return json(res, 201, summarizeCourt(c));
   }
 
@@ -510,7 +574,7 @@ const server = http.createServer(async (req, res) => {
     if (index < 0) return json(res, 404, {error:"Court not found"});
     const [removed] = db.courts.splice(index, 1);
     undoStacks.delete(id);
-    persist();
+    await persist();
     broadcastCourtDeleted(id);
     return json(res, 200, { ok:true, id, name:removed.name });
   }
@@ -525,7 +589,7 @@ const server = http.createServer(async (req, res) => {
     if (!c) return json(res, 404, {error:"Court not found"});
     const body = await readBody(req);
     try {
-      return json(res, 200, applyAction(c, body));
+      return json(res, 200, await applyAction(c, body));
     } catch (e) {
       console.error(e);
       return json(res, 500, {error:e.message});
@@ -559,19 +623,36 @@ const server = http.createServer(async (req, res) => {
   serveStatic(req, res, pathname);
 });
 
-server.listen(PORT, HOST, () => {
-  const nets = os.networkInterfaces();
-  const ips = [];
-  for (const name of Object.keys(nets)) {
-    for (const net of nets[name] || []) {
-      if (net.family === "IPv4" && !net.internal) ips.push(net.address);
-    }
+async function start() {
+  try {
+    await initPersistence();
+  } catch (e) {
+    console.error("PostgreSQL başlatılamadı:", e.message);
+    process.exit(1);
   }
-  console.log("");
-  console.log("==============================================");
-  console.log("  GLASS SCORE çalışıyor");
-  console.log(`  Bu bilgisayar: http://localhost:${PORT}`);
-  ips.forEach(ip => console.log(`  Aynı Wi‑Fi cihazları: http://${ip}:${PORT}`));
-  console.log("==============================================");
-  console.log("");
+
+  server.listen(PORT, HOST, () => {
+    const nets = os.networkInterfaces();
+    const ips = [];
+    for (const name of Object.keys(nets)) {
+      for (const net of nets[name] || []) {
+        if (net.family === "IPv4" && !net.internal) ips.push(net.address);
+      }
+    }
+    console.log("");
+    console.log("==============================================");
+    console.log("  GLASS SCORE V7 Persistent çalışıyor");
+    console.log(`  Veri: ${pool ? "PostgreSQL" : "data.json (local fallback)"}`);
+    console.log(`  Bu bilgisayar: http://localhost:${PORT}`);
+    ips.forEach(ip => console.log(`  Aynı Wi‑Fi cihazları: http://${ip}:${PORT}`));
+    console.log("==============================================");
+    console.log("");
+  });
+}
+
+process.on("SIGTERM", async () => {
+  try { await persistChain.catch(() => {}); if (pool) await pool.end(); } catch {}
+  process.exit(0);
 });
+
+start();

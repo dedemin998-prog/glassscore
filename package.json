@@ -1,13 +1,16 @@
 {
   "name": "glass-score",
-  "version": "6.0.0",
+  "version": "7.0.0",
   "private": true,
-  "description": "GLASS SCORE live padel scoring system",
+  "description": "GLASS SCORE live padel scoring system with PostgreSQL persistence",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "pg": "^8.13.1"
   }
 }
